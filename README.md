@@ -1,2 +1,2 @@
 # glimgfx
-Image effect in three.js
+Image effects in three.js
