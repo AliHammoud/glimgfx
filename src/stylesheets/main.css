@@ -1,0 +1,38 @@
+#menuSection {
+  background-color: #000000;
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  opacity: 0.875; }
+
+#test {
+  position: absolute;
+  margin-left: 150px;
+  margin-top: 10px; }
+
+#imageSection {
+  position: fixed;
+  height: 100%;
+  width: 100%; }
+
+#dragDropRegion {
+  width: 100px;
+  height: 100px;
+  background-color: bisque;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%); }
+
+#dragDropRegion img {
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); }
+
+body {
+  margin: 0px;
+  background-color: #ddd; }
+
+/*# sourceMappingURL=main.css.map */

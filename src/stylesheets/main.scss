@@ -1,0 +1,10 @@
+@import "site/partials/menuSection.scss";
+@import "site/partials/imageSection.scss";
+@import "site/partials/container.scss";
+
+$bgColor: #ddd;
+
+body {
+  margin: 0px;
+  background-color: $bgColor;
+}

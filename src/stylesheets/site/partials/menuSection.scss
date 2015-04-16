@@ -1,0 +1,18 @@
+$menuBgColor: #000000;
+$menuWidth: 200px;
+$menuHeight: 100%;
+$menuOpacity: 0.875;
+
+#menuSection {
+  background-color: $menuBgColor;
+  width: $menuWidth;
+  height: $menuHeight;
+  position: absolute;
+  opacity: $menuOpacity;
+}
+
+#test {
+  position: absolute;
+  margin-left: $menuWidth - 50px;
+  margin-top: 10px;
+}

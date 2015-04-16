@@ -1,0 +1,26 @@
+$imageWidth: 100%;
+
+#imageSection {
+  position: fixed;
+  height: $menuHeight;
+  width: $imageWidth;
+}
+
+#dragDropRegion {
+  width: 100px;
+  height: 100px;
+  background-color: bisque;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+}
+
+#dragDropRegion img {
+  position: relative;
+  left: 50%;
+  top: 50%;
+  
+  transform: translate(-50%, -50%);
+}
