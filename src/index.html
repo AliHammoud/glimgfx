@@ -3,6 +3,7 @@
 <html>
 
 <head>
+  <link rel="icon" href="img/favicon.png">
   <link rel="stylesheet" href="stylesheets/main.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="scripts/bower_components/three.js/three.min.js"></script>
@@ -14,13 +15,20 @@
   <div id="container">
 
     <div id="imageSection">
-      <div id="dragDropRegion">
-
+      <div id="container">
+        <div id="dragDropRegion">
+          <img src="img/dragdrop.png">
+          <div id="dragDropOptions">
+            drag and drop an image here
+            <br>
+            <input id="browseImg" type="file" onchange="uploadImg()">
+          </div>
+        </div>
       </div>
     </div>
-    
+
     <div id="menuSection">
-      <button id="test">Test</button>
+      <button id="test">Menu</button>
     </div>
 
   </div>

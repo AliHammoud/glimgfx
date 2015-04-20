@@ -1,0 +1,13 @@
+#menuSection {
+  background-color: #000000;
+  width: 200px;
+  height: 100%;
+  position: absolute;
+  opacity: 0.875; }
+
+#test {
+  position: absolute;
+  margin-left: 150px;
+  margin-top: 10px; }
+
+/*# sourceMappingURL=menuSection.css.map */

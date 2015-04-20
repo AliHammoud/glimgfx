@@ -1,17 +1,26 @@
 'use strict';
 
+/* global Variables*/
+
+var img;
+
+var menuSlide = '-150px',
+    sidebar_is_open = true;
+
 /* utilities */
 
-function oppositeOf(param) {
-  var oppSign, opposite;
+function closeSidebar() {
+  sidebar_is_open = !sidebar_is_open;
+  $("#menuSection").animate({left: menuSlide });
+  $("#test").animate({left: '5px' }, "fast");
+  
+}
 
-  if (param.charAt(0) === '-') {
-    oppSign = '+';
-  } else {
-    oppSign = '-';
-  }
-  opposite = oppSign + param.substr(1, param.length - 1);
-  return (opposite);
+function openSidebar() {
+  sidebar_is_open = !sidebar_is_open;
+  $("#menuSection").animate({left: '0px' });
+  $("#test").animate({left: '0px' }, "fast");
+  
 }
 
 function readImageFile(file) {
@@ -22,24 +31,38 @@ function readImageFile(file) {
   if (file.type.match(imageType)) {
     
     reader.onload = function (e) {
-      var img = new Image();
+      img = new Image();
       img.src = reader.result;
       
       imageArea.innerHTML = "";
+      
+      //TODO append three.js canvas
       imageArea.appendChild(img);
+      
+      if (sidebar_is_open) {
+        closeSidebar();
+
+      };
+      
     };
 
     reader.readAsDataURL(file);
     
   } else {
     imageArea.innerHTML = "File format not supported!";
+    
   }
 }
 
-/* on document ready */
+function uploadImg() {
+  
+  if (sidebar_is_open) {
+    closeSidebar();
 
-var menuSlide = '-150px',
-    menuHidden = false;
+  };
+}
+
+/* on document ready */
 
 $(document).ready(function () {
 
@@ -47,21 +70,14 @@ $(document).ready(function () {
   
   $("#test").click(function () {
 
-    if (!menuHidden) {
-      menuHidden = true;
-
-      $("#menuSection").animate({left: menuSlide });
-      //$("#imageSection").animate({left: menuSlide });
-      $("#test").animate({left: '5px' }, "fast");
-
-    } else if (menuHidden) {
-      menuHidden = false;
-
-      $("#menuSection").animate({left: '0px' });
-      //$("#imageSection").animate({left: '0px' });
-      $("#test").animate({left: '0px' }, "fast");
-
+    if (!sidebar_is_open) {
+      openSidebar();
+      
+    } else if (sidebar_is_open) {
+      closeSidebar();
+      
     }
+    
   });
   
   /* drag and drop image */
@@ -73,14 +89,17 @@ $(document).ready(function () {
     if (e.stopPropagation) {e.stopPropagation(); }
 
     e.dataTransfer.dropEffect = 'copy';
+    
   });
 
   dropZone.addEventListener('dragenter', function (e) {
     this.className = "over";
+    
   });
 
   dropZone.addEventListener('dragleave', function (e) {
     this.className = "";
+    
   });
 
   dropZone.addEventListener('drop', function (e) {

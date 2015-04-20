@@ -9,10 +9,12 @@ $menuOpacity: 0.875;
   height: $menuHeight;
   position: absolute;
   opacity: $menuOpacity;
+  
 }
 
 #test {
   position: absolute;
   margin-left: $menuWidth - 50px;
   margin-top: 10px;
+  
 }

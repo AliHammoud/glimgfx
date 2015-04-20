@@ -11,25 +11,39 @@
   margin-top: 10px; }
 
 #imageSection {
-  position: fixed;
+  position: absolute;
+  width: 100%;
   height: 100%;
-  width: 100%; }
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto; }
+
+#imageSection #container {
+  position: relative;
+  left: 50%;
+  top: 50%; }
 
 #dragDropRegion {
-  width: 100px;
-  height: 100px;
-  background-color: bisque;
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%);
-  transform: translateX(-50%); }
+  width: 250px;
+  height: 250px;
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
 
 #dragDropRegion img {
-  position: relative;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%); }
+  max-height: 100%;
+  max-width: 100%; }
+
+#dragDropRegion #dragDropOptions {
+  text-align: center;
+  font-family: monospace;
+  font-size: 10pt;
+  padding: 10px; }
+
+#dragDropRegion #dragDropOptions input {
+  margin-top: 10px; }
 
 body {
   margin: 0px;
