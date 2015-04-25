@@ -25,7 +25,7 @@ function openSidebar() {
 
 function readImageFile(file) {
   var reader = new FileReader(),
-      imageArea = document.querySelector("#dragDropRegion"),
+      imageArea = document.querySelector("#img_container"),
       imageType = /image.*/;
   
   if (file.type.match(imageType)) {
@@ -36,13 +36,13 @@ function readImageFile(file) {
       
       imageArea.innerHTML = "";
       
-      //TODO append three.js canvas
-      imageArea.appendChild(img);
+      var viewport = new ThreeViewport(img, imageArea);
+      viewport.renderViewport();
       
       if (sidebar_is_open) {
         closeSidebar();
 
-      };
+      }
       
     };
 
@@ -52,6 +52,7 @@ function readImageFile(file) {
     imageArea.innerHTML = "File format not supported!";
     
   }
+
 }
 
 function uploadImg() {
@@ -59,7 +60,13 @@ function uploadImg() {
   if (sidebar_is_open) {
     closeSidebar();
 
-  };
+  }
+  
+  var input = document.getElementById("browseImg");
+  var file = input.files[0];
+  
+  readImageFile(file);
+  
 }
 
 /* on document ready */
@@ -112,6 +119,7 @@ $(document).ready(function () {
 
     if (fileList.length > 0) {
       readImageFile(fileList[0]);
+      
     }
 
   });

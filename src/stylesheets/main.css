@@ -20,8 +20,12 @@
   right: 0;
   margin: auto; }
 
-#imageSection #container {
+#imageSection canvas {
+  transform: translate(-50%, -50%); }
+
+#imageSection #img_container {
   position: relative;
+  width: 0px;
   left: 50%;
   top: 50%; }
 
