@@ -45,14 +45,11 @@ function readImageFile(file) {
       }
       
     };
-
     reader.readAsDataURL(file);
-    
   } else {
     imageArea.innerHTML = "File format not supported!";
     
   }
-
 }
 
 function uploadImg() {
@@ -95,7 +92,7 @@ $(document).ready(function () {
     if (e.preventDefault) {e.preventDefault(); }
     if (e.stopPropagation) {e.stopPropagation(); }
 
-    e.dataTransfer.dropEffect = 'copy';
+    e.dataTransfer.dropEffect = 'move';
     
   });
 
