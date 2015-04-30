@@ -10,4 +10,11 @@
   margin-left: 150px;
   margin-top: 10px; }
 
+#menuContainer {
+  margin-top: 45px; }
+
+#menuContainer button {
+  display: flex;
+  margin: 20px; }
+
 /*# sourceMappingURL=menuSection.css.map */

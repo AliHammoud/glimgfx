@@ -3,11 +3,19 @@
 /* global Variables*/
 
 var img;
-
-var menuSlide = '-150px',
-    sidebar_is_open = true;
+var viewport;
+var menuSlide = '-150px';
+var sidebar_is_open = true;
 
 /* utilities */
+
+function changeShaders(vS, fS) {
+  var
+    vShader = document.getElementById(vS).innerHTML,
+      fShader = document.getElementById(fS).innerHTML;
+
+  viewport.updateShader(vShader, fShader);
+}
 
 function closeSidebar() {
   sidebar_is_open = !sidebar_is_open;
@@ -24,9 +32,10 @@ function openSidebar() {
 }
 
 function readImageFile(file) {
-  var reader = new FileReader(),
-      imageArea = document.querySelector("#img_container"),
-      imageType = /image.*/;
+  var
+    reader = new FileReader(),
+    imageArea = document.querySelector("#img_container"),
+    imageType = /image/;
   
   if (file.type.match(imageType)) {
     
@@ -38,7 +47,13 @@ function readImageFile(file) {
       sessionStorage.setItem("editImg", img.src);
       imageArea.innerHTML = "";
       
-      var viewport = new ThreeViewport(imageArea);
+      //Add default shader (no effect)
+      var
+        vShader = document.getElementById("vertexShader").innerHTML,
+        fShader = document.getElementById("fragmentShader_0").innerHTML;
+      
+      viewport = new ThreeViewport(imageArea);
+      viewport.updateShader(vShader, fShader);
       
       if (sidebar_is_open) {
         closeSidebar();
@@ -60,8 +75,9 @@ function uploadImg() {
 
   }
   
-  var input = document.getElementById("browseImg");
-  var file = input.files[0];
+  var
+    input = document.getElementById("browseImg"),
+    file = input.files[0];
   
   readImageFile(file);
   
@@ -120,6 +136,22 @@ $(document).ready(function () {
       
     }
 
+  });
+  
+  /* effects change */
+  
+  //Shader 0: No effect
+  $("#btn_e0").click(function () {
+    changeShaders("vertexShader", "fragmentShader_0");
+  });
+  
+  //Shader 1: Green is blue
+  $("#btn_e1").click(function () {
+    changeShaders("vertexShader", "fragmentShader_1");
+  });
+  
+  $("#btn_e2").click(function () {
+    changeShaders("vertexShader", "fragmentShader_2");
   });
   
 });

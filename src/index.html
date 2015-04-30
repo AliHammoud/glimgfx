@@ -20,10 +20,11 @@
       vUv = uv;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
 
-    } 
+    }
+    
   </script>
   
-  <script id="fragmentShader"
+  <script id="fragmentShader_0"
           type="x-shader/x-fragment" >
   
     varying vec2 vUv;
@@ -34,9 +35,43 @@
       gl_FragColor = vec4 (myTexture.r, myTexture.g, myTexture.b, 1.0);
 
     }
-  
+    
   </script>
   
+  <script id="fragmentShader_1"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+
+    void main(){
+      vec4 myTexture = texture2D(editImg, vUv);
+      gl_FragColor = vec4 (myTexture.r, myTexture.b, myTexture.b, 1.0);
+
+    }
+    
+  </script>
+  
+  <script id="fragmentShader_2"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+
+    void main(){
+      vec4 myTexture = texture2D(editImg, vUv);
+      
+      float rInv = 1.0 - myTexture.r;
+      float gInv = 1.0 - myTexture.g;
+      float bInv = 1.0 - myTexture.b;
+      
+      gl_FragColor = vec4 (rInv, gInv, bInv, 1.0);
+
+    }
+
+  </script>
+  
+  <!-- End of Shaders -->
 </head>
 
 <body>
@@ -57,6 +92,11 @@
 
     <div id="menuSection">
       <button id="test">Menu</button>
+      <div id="menuContainer">
+        <button id="btn_e0">No Effect</button>
+        <button id="btn_e1">Green -> Blue</button>
+        <button id="btn_e2">Invert colors</button>
+      </div>
     </div>
 
   </div>

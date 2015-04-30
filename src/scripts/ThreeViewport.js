@@ -1,5 +1,6 @@
 var ThreeViewport = function (domElement) {
-  //"use strict";
+  "use strict";
+  
   //Prepare transferred image
   //Converted from image to base64
   this.img = new Image();
@@ -14,6 +15,10 @@ var ThreeViewport = function (domElement) {
     function () {renderScene(); }
   );
   
+  //The shaders
+  this.vShader = document.getElementById("vertexShader").innerHTML;
+  this.fShader = document.getElementById("fragmentShader_0").innerHTML;
+  
   var
     //Ortho camera settings
     LEFT = -1,
@@ -22,17 +27,13 @@ var ThreeViewport = function (domElement) {
     BOTTOM = -1,
     NEAR = 0.1,
     FAR = 10000,
-      
-    //The shaders
-    vShader = document.getElementById("vertexShader").innerHTML,
-    fShader = document.getElementById("fragmentShader").innerHTML,
   
     //Image plane settings
     imgGeo = new THREE.PlaneBufferGeometry(2, 2, 1, 1),
     imgMat = new THREE.ShaderMaterial({
       uniforms: {editImg: {type: "t", value: this.tex}},
-      vertexShader: vShader,
-      fragmentShader: fShader
+      vertexShader: this.vShader,
+      fragmentShader: this.fShader
     }),
     imgObj = new THREE.Mesh(imgGeo, imgMat),
     
@@ -57,11 +58,31 @@ var ThreeViewport = function (domElement) {
   
   scene.add(imgObj);
   
-  renderer.setSize(this.img.width / 3, this.img.height / 3);
+  renderer.setSize(this.img.width, this.img.height);
   renderer.setClearColor(0x223366, 1);
   
   domElement.appendChild(renderer.domElement);
   
   renderScene();
+  
+  ThreeViewport.prototype.updateShader = function (vS, fS) {
+    this.vShader = vS;
+    this.fShader = fS;
+    
+    scene.remove(imgObj);
+    
+    imgGeo = new THREE.PlaneBufferGeometry(2, 2, 1, 1);
+    imgMat = new THREE.ShaderMaterial({
+      uniforms: {editImg: {type: "t", value: this.tex}},
+      vertexShader: this.vShader,
+      fragmentShader: this.fShader
+    });
+    imgObj = new THREE.Mesh(imgGeo, imgMat);
+    
+    scene.add(imgObj);
+    
+    renderScene();
+    
+  };
   
 };
