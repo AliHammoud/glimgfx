@@ -34,10 +34,11 @@ function readImageFile(file) {
       img = new Image();
       img.src = reader.result;
       
+      //Save in browser's session
+      sessionStorage.setItem("editImg", img.src);
       imageArea.innerHTML = "";
       
-      var viewport = new ThreeViewport(img, imageArea);
-      viewport.renderViewport();
+      var viewport = new ThreeViewport(imageArea);
       
       if (sidebar_is_open) {
         closeSidebar();
@@ -92,7 +93,7 @@ $(document).ready(function () {
     if (e.preventDefault) {e.preventDefault(); }
     if (e.stopPropagation) {e.stopPropagation(); }
 
-    e.dataTransfer.dropEffect = 'move';
+    e.dataTransfer.dropEffect = 'copy';
     
   });
 
