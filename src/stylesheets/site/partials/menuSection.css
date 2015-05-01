@@ -13,8 +13,18 @@
 #menuContainer {
   margin-top: 45px; }
 
-#menuContainer button {
+#menuContainer button, a {
   display: flex;
   margin: 20px; }
+
+#menuContainer a:hover {
+  background-color: yellow;
+  color: black;
+  cursor: pointer; }
+
+#menuContainer a {
+  font-family: sans-serif;
+  font-size: 10pt;
+  color: white; }
 
 /*# sourceMappingURL=menuSection.css.map */

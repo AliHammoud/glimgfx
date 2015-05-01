@@ -2,14 +2,9 @@ $imageWidth: 100%;
 $menuHeight: 100%;
 
 #imageSection{
-  position: absolute;
+  position: fixed;
   width: $imageWidth;
   height: $menuHeight;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
   
 }
 

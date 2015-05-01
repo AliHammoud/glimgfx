@@ -12,7 +12,7 @@ var sidebar_is_open = true;
 function changeShaders(vS, fS) {
   var
     vShader = document.getElementById(vS).innerHTML,
-      fShader = document.getElementById(fS).innerHTML;
+    fShader = document.getElementById(fS).innerHTML;
 
   viewport.updateShader(vShader, fShader);
 }
@@ -55,6 +55,8 @@ function readImageFile(file) {
       viewport = new ThreeViewport(imageArea);
       viewport.updateShader(vShader, fShader);
       
+      $("canvas").attr("id", "imgCanvas");
+      
       if (sidebar_is_open) {
         closeSidebar();
 
@@ -88,7 +90,6 @@ function uploadImg() {
 $(document).ready(function () {
 
   /* side menu */
-  
   $("#test").click(function () {
 
     if (!sidebar_is_open) {
@@ -101,8 +102,15 @@ $(document).ready(function () {
     
   });
   
+  /* download image */
+  
+  $("#link_download").click(function () {
+    this.href = document.getElementById("imgCanvas").toDataURL();
+    this.download = "glimgfx_img";
+    
+  });
+  
   /* drag and drop image */
-
   var dropZone = document.querySelector("#dragDropRegion");
   
   dropZone.addEventListener('dragover', function (e) {
@@ -139,7 +147,6 @@ $(document).ready(function () {
   });
   
   /* effects change */
-  
   //Shader 0: No effect
   $("#btn_e0").click(function () {
     changeShaders("vertexShader", "fragmentShader_0");

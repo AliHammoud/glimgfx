@@ -40,7 +40,7 @@ var ThreeViewport = function (domElement) {
     //Scene attributes
     scene = new THREE.Scene(),
     camera = new THREE.OrthographicCamera(LEFT, RIGHT, TOP, BOTTOM, NEAR, FAR),
-    renderer = new THREE.WebGLRenderer(),
+    renderer = new THREE.WebGLRenderer({preserveDrawingBuffer: true }),
     
     //Private functions
     repeatWrapping = function (tex) {
