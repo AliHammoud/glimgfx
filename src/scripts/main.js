@@ -1,14 +1,12 @@
 'use strict';
 
 /* global Variables*/
-
 var img;
 var viewport;
 var menuSlide = '-150px';
 var sidebar_is_open = true;
 
 /* utilities */
-
 function changeShaders(vS, fS) {
   var
     vShader = document.getElementById(vS).innerHTML,
@@ -86,7 +84,6 @@ function uploadImg() {
 }
 
 /* on document ready */
-
 $(document).ready(function () {
 
   /* side menu */
@@ -103,7 +100,6 @@ $(document).ready(function () {
   });
   
   /* download image */
-  
   $("#link_download").click(function () {
     this.href = document.getElementById("imgCanvas").toDataURL();
     this.download = "glimgfx_img";
@@ -112,7 +108,6 @@ $(document).ready(function () {
   
   /* drag and drop image */
   var dropZone = document.querySelector("#dragDropRegion");
-  
   dropZone.addEventListener('dragover', function (e) {
     if (e.preventDefault) {e.preventDefault(); }
     if (e.stopPropagation) {e.stopPropagation(); }
@@ -120,17 +115,14 @@ $(document).ready(function () {
     e.dataTransfer.dropEffect = 'copy';
     
   });
-
   dropZone.addEventListener('dragenter', function (e) {
     this.className = "over";
     
   });
-
   dropZone.addEventListener('dragleave', function (e) {
     this.className = "";
     
   });
-
   dropZone.addEventListener('drop', function (e) {
     if (e.preventDefault) {e.preventDefault(); }
     if (e.stopPropagation) {e.stopPropagation(); }
@@ -159,6 +151,12 @@ $(document).ready(function () {
   
   $("#btn_e2").click(function () {
     changeShaders("vertexShader", "fragmentShader_2");
+  });
+  
+  window.addEventListener('resize', function () {
+    if (viewport !== undefined) {
+      viewport.resizeViewport();
+    }
   });
   
 });
