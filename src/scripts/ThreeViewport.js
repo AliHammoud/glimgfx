@@ -6,15 +6,15 @@ var ThreeViewport = function (domElement) {
   this.img = new Image();
   this.img.src = sessionStorage.getItem("editImg");
   
-  //Render scene after texture is loaded
+  //Render scene after texture is loaded (note: async)
   //Propose fix ?
   //Bypassed CORS?
   this.tex = THREE.ImageUtils.loadTexture(
     this.img.src,
     {},
-    function () {renderScene(); }
+    function () {renderScene("Setup: Async texture load"); }
   );
-  
+
   //Set texture filter to nearest (works for all image sizes)
   //TODO check if power of two to interpolate
   this.tex.magFilter = THREE.NearestFilter;
@@ -23,6 +23,8 @@ var ThreeViewport = function (domElement) {
   //Get the shaders
   this.vShader = document.getElementById("vertexShader").innerHTML;
   this.fShader = document.getElementById("fragmentShader_0").innerHTML;
+  
+  /* Attributes */
   
   var
       
@@ -34,17 +36,22 @@ var ThreeViewport = function (domElement) {
     IMGASPECT = (IMGWIDTH / IMGHEIGHT),
     WINASPECT = (WINWIDTH / WINHEIGHT),
     
+    //canvas and its dimensions (updated after loading image)
+    CANVAS    = null,
+    CWIDTH    = null,
+    CHEIGHT   = null,
+      
     //Camera settings
-    FOV     =   100,
-    NEAR    =   0.1,
-    FAR     =   10000,
+    FOV       = 100,
+    NEAR      = 0.1,
+    FAR       = 10000,
     IMGZOOM   = 1,
     
     //Scene attributes
     scene     = new THREE.Scene(),
     camera    = new THREE.PerspectiveCamera(FOV, WINASPECT, NEAR, FAR),
     renderer  = new THREE.WebGLRenderer({preserveDrawingBuffer: true }),
-      
+    
     //Private functions
     repeatWrapping = function (tex) {
       tex.wrapS = THREE.RepeatWrapping;
@@ -60,6 +67,7 @@ var ThreeViewport = function (domElement) {
         scene.remove(scene.getObjectByName("imagePlane"));
         
       }
+      
       var
         imgGeo = new THREE.PlaneBufferGeometry(WINASPECT, 1, 1, 1),
         imgMat = new THREE.ShaderMaterial({
@@ -72,6 +80,7 @@ var ThreeViewport = function (domElement) {
       imgObj.name = "imagePlane";
       imgObj.scale.set(imgScale, imgScale, 1);
       scene.add(imgObj);
+      
     },
       
     //Handle viewport dimensions to match image dimensions
@@ -96,38 +105,58 @@ var ThreeViewport = function (domElement) {
         renderer.setSize(IMGWIDTH, IMGHEIGHT);
 
       }
+      
+      CWIDTH  = renderer.width;
+      CHEIGHT = renderer.height;
+      
     },
       
-    //Update results and measure performance
-    renderScene = function () {
+    //TODO render the full size image on a "back canvas"
+    
+    //Update viewport
+    renderScene = function (message) {
             
       camera.position.z = IMGZOOM;
       var startTime = new Date().getMilliseconds();
       
+      //render the scene for preview (a few msec of overhead)
       renderer.render(scene, camera);
       
-      console.log("Process took: "
+      console.log(message + " took: "
                   + (new Date().getMilliseconds() - startTime)
                   + " milleseconds"
                  );
       
     };
   
+  /* End attributes */
+  
   //Add viewport to page
   renderer.setClearColor(0x223366);
   domElement.appendChild(renderer.domElement);
-  renderScene();
   
   ThreeViewport.prototype.updateShader = function (vS, fS) {
     this.vShader = vS;
     this.fShader = fS;
+    this.img.src = sessionStorage.getItem("editImg");
+    
+    this.tex = THREE.ImageUtils.loadTexture(
+      this.img.src,
+      {},
+      function () {renderScene("Update Shader: texture reload"); }
+    );
+
+    //Set texture filter to nearest (works for all image sizes)
+    //TODO check if power of two to interpolate
+    this.tex.magFilter = THREE.NearestFilter;
+    this.tex.minFilter = THREE.NearestFilter;
     
     //Set the viewport to handle different image dimensions
     fitViewportToImage();
     var bestfit = Math.tan(camera.fov * Math.PI / 180 * 0.5) * IMGZOOM * 2;
     addImgPlane(bestfit, this.vShader, this.fShader, this.tex);
     
-    renderScene();
+    renderScene("Scene refresh");
     
   };
   
@@ -135,6 +164,16 @@ var ThreeViewport = function (domElement) {
     WINWIDTH  = window.innerWidth;
     WINHEIGHT = window.innerHeight;
     this.updateShader(this.vShader, this.fShader);
+    
+  };
+  
+  ThreeViewport.prototype.stackEffects = function () {
+    //Replace previously loaded image in sessionStorage
+    var
+      canvas     = document.getElementById("imgCanvas"),
+      canvasData = canvas.toDataURL();
+    
+    sessionStorage.setItem("editImg", canvasData);
     
   };
   

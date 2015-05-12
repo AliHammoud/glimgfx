@@ -1,18 +1,34 @@
 'use strict';
 
 /* global Variables*/
-var img;
-var viewport;
-var menuSlide = '-150px';
-var sidebar_is_open = true;
+var
+  img,
+  viewport,
+  menuSlide = '-150px',
+  canvas,
+  sidebar_is_open = true;
 
 /* utilities */
 function changeShaders(vS, fS) {
-  var
-    vShader = document.getElementById(vS).innerHTML,
-    fShader = document.getElementById(fS).innerHTML;
+  
+  try {
+    if (canvas === null) {
+      throw "No canvas yet!";
 
-  viewport.updateShader(vShader, fShader);
+    } else {
+      var
+        vShader = document.getElementById(vS).innerHTML,
+        fShader = document.getElementById(fS).innerHTML;
+
+      viewport.updateShader(vShader, fShader);
+
+    }
+
+  } catch (err) {
+    alert(err);
+
+  }
+  
 }
 
 function closeSidebar() {
@@ -50,18 +66,22 @@ function readImageFile(file) {
         vShader = document.getElementById("vertexShader").innerHTML,
         fShader = document.getElementById("fragmentShader_0").innerHTML;
       
+      //Create a canvas with our image
       viewport = new ThreeViewport(imageArea);
-      viewport.updateShader(vShader, fShader);
       
       $("canvas").attr("id", "imgCanvas");
+      canvas = document.getElementById("imgCanvas");
+      //Bind shader to image (before it is loaded)
+      viewport.updateShader(vShader, fShader);
       
       if (sidebar_is_open) {
         closeSidebar();
-
+        
       }
       
     };
     reader.readAsDataURL(file);
+    
   } else {
     imageArea.innerHTML = "File format not supported!";
     
@@ -80,6 +100,23 @@ function uploadImg() {
     file = input.files[0];
   
   readImageFile(file);
+  
+}
+
+function stackEffect() {
+  try {
+    if (canvas === null) {
+      throw "No canvas yet!";
+      
+    } else {
+      viewport.stackEffects();
+      
+    }
+    
+  } catch (err) {
+    alert(err);
+    
+  }
   
 }
 
@@ -149,14 +186,32 @@ $(document).ready(function () {
     changeShaders("vertexShader", "fragmentShader_1");
   });
   
+  //Shader 2: Invert colours
   $("#btn_e2").click(function () {
     changeShaders("vertexShader", "fragmentShader_2");
+  });
+  
+  //Shader 3: Red is blue
+  $("#btn_e3").click(function () {
+    changeShaders("vertexShader", "fragmentShader_3");
+  });
+  
+  //Shader 4: Invert blue
+  $("#btn_e4").click(function () {
+    changeShaders("vertexShader", "fragmentShader_4");
+  });
+  
+  //Stack effects
+  $("#btn_stack").click(function () {
+    stackEffect();
+    
   });
   
   window.addEventListener('resize', function () {
     if (viewport !== undefined) {
       viewport.resizeViewport();
     }
+    
   });
   
 });

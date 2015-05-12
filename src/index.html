@@ -74,6 +74,39 @@
 
   </script>
   
+  <script name="red_is_blue"
+          id="fragmentShader_3"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+
+    void main(){
+      vec4 myTexture = texture2D(editImg, vUv);
+      gl_FragColor = vec4 (myTexture.b, myTexture.g, myTexture.b, 1.0);
+
+    }
+
+  </script>
+  
+  <script name="invert_blue"
+          id="fragmentShader_4"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+
+    void main(){
+      vec4 myTexture = texture2D(editImg, vUv);
+      
+      float bInv = 1.0 - myTexture.b;
+
+      gl_FragColor = vec4 (myTexture.r, myTexture.g, bInv, 1.0);
+
+    }
+
+  </script>
+  
   <!-- End of Shaders -->
 </head>
 
@@ -98,9 +131,12 @@
       <button id="test">Menu</button>
       
       <div id="menuContainer">
-        <button id="btn_e0">No Effect</button>
+        <button id="btn_e0">Undo Last Effect</button>
         <button id="btn_e1">Green -> Blue</button>
-        <button id="btn_e2">Invert colors</button>
+        <button id="btn_e2">Invert Colours</button>
+        <button id="btn_e3">Red -> Blue</button>
+        <button id="btn_e4">Invert Blue</button>
+        <button id="btn_stack">Stack Effect</button>
         <a id="link_download">Download Result (experimental)</a>
       </div>
       
