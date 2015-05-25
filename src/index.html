@@ -13,12 +13,14 @@
   <!-- Shaders -->
   <script id="vertexShader" 
           type="x-shader/x-vertex" >
-  
+    
     varying vec2 vUv;
 
     void main(){
       vUv = uv;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      gl_Position = projectionMatrix * 
+                    modelViewMatrix * 
+                    vec4(position, 1.0);
 
     }
     
@@ -29,7 +31,10 @@
           type="x-shader/x-fragment" >
   
     varying vec2 vUv;
+    
     uniform sampler2D editImg;
+    uniform float imageWidth;
+    uniform float imageHeight;
 
     void main(){
       vec4 myTexture = texture2D(editImg, vUv);
@@ -45,6 +50,8 @@
 
     varying vec2 vUv;
     uniform sampler2D editImg;
+    uniform float imageWidth;
+    uniform float imageHeight;
 
     void main(){
       vec4 myTexture = texture2D(editImg, vUv);
@@ -60,7 +67,9 @@
 
     varying vec2 vUv;
     uniform sampler2D editImg;
-
+    uniform float imageWidth;
+    uniform float imageHeight;
+    
     void main(){
       vec4 myTexture = texture2D(editImg, vUv);
       
@@ -80,6 +89,8 @@
 
     varying vec2 vUv;
     uniform sampler2D editImg;
+    uniform float imageWidth;
+    uniform float imageHeight;
 
     void main(){
       vec4 myTexture = texture2D(editImg, vUv);
@@ -95,6 +106,8 @@
 
     varying vec2 vUv;
     uniform sampler2D editImg;
+    uniform float imageWidth;
+    uniform float imageHeight;
 
     void main(){
       vec4 myTexture = texture2D(editImg, vUv);
@@ -103,6 +116,153 @@
 
       gl_FragColor = vec4 (myTexture.r, myTexture.g, bInv, 1.0);
 
+    }
+
+  </script>
+  
+  <script name="fast_blur"
+          id="fragmentShader_5"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imgWidth;
+    uniform float imgHeight;
+
+    void main(){
+
+      vec2 offset = vec2(2.0/imgWidth, 2.0/imgHeight);
+      vec4 blurryImg = (
+                      texture2D(editImg, vUv)+
+                      texture2D(editImg, vUv + vec2(offset.x, 0.0))+
+                      texture2D(editImg, vUv + vec2(-offset.x, 0.0))
+                      )/3.0;
+                      
+      gl_FragColor = blurryImg;
+      
+    }
+    
+  </script>
+  
+  <script name="fast_bloom"
+          id="fragmentShader_6"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imgWidth;
+    uniform float imgHeight;
+
+    void main(){
+
+      vec2 offset = vec2(2.0/imgWidth, 2.0/imgHeight);
+      vec4 blurryImg = (
+                      texture2D(editImg, vUv)+
+                      texture2D(editImg, vUv + vec2(offset.x, 0.0))+
+                      texture2D(editImg, vUv + vec2(0.0, offset.y))+
+                      texture2D(editImg, vUv + vec2(-offset.x, 0.0))+
+                      texture2D(editImg, vUv + vec2(0.0, -offset.y))
+                      )/5.0;
+                      
+      vec4 normalImg = texture2D(editImg, vUv)/2.0;
+
+      gl_FragColor = (blurryImg + normalImg/1.5);
+      
+    }
+
+  </script>
+  
+  <script name="edge_detection"
+          id="fragmentShader_7"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imgWidth;
+    uniform float imgHeight;
+    
+    //check if pixel within threshold, like clamp but with early returns
+    float threshold(float minThresh, float maxThresh, float val) {
+      if(val < minThresh) {return 1.0;}
+      if(val > maxThresh) {return 0.0;}
+      return val;
+
+    }
+
+    //calculate pixel's colour channel average
+    float avg_intensity(vec4 pix) {
+      return (pix.r + pix.g + pix.b)/3.0;
+
+    }
+
+    //get pixel with coordinate offset
+    vec4 get_pixel(vec2 coord, float offX, float offY) {
+      return texture2D(editImg, coord + vec2(offX, offY));
+
+    }
+
+    //apply edge detecting formula on 8-neighbours
+    float isEdge(vec2 coords) {
+    
+      //single pixel step = 1/dimension
+      float offsetX = 1.0 / imgWidth;
+      float offsetY = 1.0 / imgHeight;
+      
+      //array of neigbours
+      float pix[9];
+
+      //Manually check neigbouring pixels and calc. avg intensity
+      //spec does not allow variables as array indices
+      pix[0] = avg_intensity(get_pixel(coords,-1.0*offsetX,-1.0*offsetY));
+      pix[1] = avg_intensity(get_pixel(coords,-1.0*offsetX, 0.0*offsetY));
+      pix[2] = avg_intensity(get_pixel(coords,-1.0*offsetX, 1.0*offsetY));
+      pix[3] = avg_intensity(get_pixel(coords, 0.0*offsetX,-1.0*offsetY));
+      pix[5] = avg_intensity(get_pixel(coords, 0.0*offsetX, 1.0*offsetY));
+      pix[6] = avg_intensity(get_pixel(coords, 1.0*offsetX,-1.0*offsetY));
+      pix[7] = avg_intensity(get_pixel(coords, 1.0*offsetX, 0.0*offsetY));
+      pix[8] = avg_intensity(get_pixel(coords, 1.0*offsetX, 1.0*offsetY));
+
+      //apply edge detection formula
+      float result = (abs(pix[1] - pix[7]) + 
+               abs(pix[5] - pix[3]) +
+               abs(pix[0] - pix[8]) +
+               abs(pix[2] - pix[6]) / 4.0);
+
+      return threshold(0.25, 0.4, clamp(1.5*result, 0.0, 1.0));
+
+    }
+    
+    void main(){
+      //check if current fragment is an edge or not
+      float fragWeight = isEdge(vUv);
+      gl_FragColor = vec4(fragWeight, fragWeight, fragWeight, 1.0);
+      
+    }
+
+  </script>
+  
+  <script name="rgb_to_grayscale"
+          id="fragmentShader_8"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imgWidth;
+    uniform float imgHeight;
+
+    void main(){
+
+      //luminosity is the most appealing type of grayscale
+      //luminosyt = 0.21R + 0.72G + 0.07B
+      
+      vec4 img = texture2D(editImg, vUv);
+      vec4 grayScale = vec4(img.r * 0.21 + img.g * 0.72 + img.b * 0.07,
+                            img.r * 0.21 + img.g * 0.72 + img.b * 0.07,
+                            img.r * 0.21 + img.g * 0.72 + img.b * 0.07,
+                            1.0
+                            );
+      gl_FragColor = grayScale;
+      
     }
 
   </script>
@@ -136,6 +296,10 @@
         <button id="btn_e2">Invert Colours</button>
         <button id="btn_e3">Red -> Blue</button>
         <button id="btn_e4">Invert Blue</button>
+        <button id="btn_e5">Fast Blur</button>
+        <button id="btn_e6">Fast Bloom</button>
+        <button id="btn_e7">Detect Edges</button>
+        <button id="btn_e8">Make Grayscale</button>
         <button id="btn_stack">Stack Effect</button>
         <a id="link_download">Download Result (experimental)</a>
       </div>

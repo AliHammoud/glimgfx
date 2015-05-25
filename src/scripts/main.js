@@ -201,6 +201,25 @@ $(document).ready(function () {
     changeShaders("vertexShader", "fragmentShader_4");
   });
   
+  //Shader 5: ghosting
+  $("#btn_e5").click(function () {
+    changeShaders("vertexShader", "fragmentShader_5");
+  });
+  
+  //Shader 6: Detect edges
+  $("#btn_e6").click(function () {
+    changeShaders("vertexShader", "fragmentShader_6");
+  });
+  
+  //Shader 7: Detect edges
+  $("#btn_e7").click(function () {
+    changeShaders("vertexShader", "fragmentShader_7");
+  });
+  
+  $("#btn_e8").click(function () {
+    changeShaders("vertexShader", "fragmentShader_8");
+  });
+  
   //Stack effects
   $("#btn_stack").click(function () {
     stackEffect();

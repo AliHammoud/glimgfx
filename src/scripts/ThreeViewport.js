@@ -14,11 +14,6 @@ var ThreeViewport = function (domElement) {
     {},
     function () {renderScene("Setup: Async texture load"); }
   );
-
-  //Set texture filter to nearest (works for all image sizes)
-  //TODO check if power of two to interpolate
-  this.tex.magFilter = THREE.NearestFilter;
-  this.tex.minFilter = THREE.NearestFilter;
   
   //Get the shaders
   this.vShader = document.getElementById("vertexShader").innerHTML;
@@ -71,7 +66,11 @@ var ThreeViewport = function (domElement) {
       var
         imgGeo = new THREE.PlaneBufferGeometry(WINASPECT, 1, 1, 1),
         imgMat = new THREE.ShaderMaterial({
-          uniforms: {editImg: {type: "t", value: texture}},
+          uniforms: {editImg: {type: "t", value: texture},
+                     imgWidth: {type: "f", value: IMGWIDTH},
+                     imgHeight: {type: "f", value: IMGHEIGHT}
+
+                    },
           vertexShader: vS,
           fragmentShader: fS
         }),
@@ -146,10 +145,23 @@ var ThreeViewport = function (domElement) {
       function () {renderScene("Update Shader: texture reload"); }
     );
 
-    //Set texture filter to nearest (works for all image sizes)
-    //TODO check if power of two to interpolate
-    this.tex.magFilter = THREE.NearestFilter;
-    this.tex.minFilter = THREE.NearestFilter;
+    /*
+      Check if image is power of two and apply appropriate
+      texture filter
+    */
+    if (IMGWIDTH / 8   % 1 === 0 &&
+        IMGHEIGHT / 8  % 1 === 0) {
+      //image is power of two! Interpolate linearly.
+      this.tex.magFilter = THREE.LinearFilter;
+      this.tex.minFilter = THREE.LinearFilter;
+
+    } else {
+      //image is NOT power of two, apply nearest filter
+      //supresses warning and avoids performance loss
+      this.tex.magFilter = THREE.NearestFilter;
+      this.tex.minFilter = THREE.NearestFilter;
+
+    }
     
     //Set the viewport to handle different image dimensions
     fitViewportToImage();
