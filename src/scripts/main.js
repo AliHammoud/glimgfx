@@ -9,7 +9,7 @@ var
   sidebar_is_open = true;
 
 /* utilities */
-function changeShaders(vS, fS) {
+function changeShaders(vS, fS, unifs) {
   
   try {
     if (canvas === null) {
@@ -20,7 +20,7 @@ function changeShaders(vS, fS) {
         vShader = document.getElementById(vS).innerHTML,
         fShader = document.getElementById(fS).innerHTML;
 
-      viewport.updateShader(vShader, fShader);
+      viewport.updateShader(vShader, fShader, unifs);
 
     }
 
@@ -220,11 +220,32 @@ $(document).ready(function () {
     changeShaders("vertexShader", "fragmentShader_8");
   });
   
+  $("#btn_e9").click(function () {
+    changeShaders("vertexShader", "fragmentShader_9");
+  });
+  
+  $("#btn_e10").click(function () {
+    
+    //store all the kernel values in array
+    var kernelVals = [];
+    
+    //get every kernel input value
+    $(".kernel").each(function(index){
+      var k = $(this).val();
+      kernelVals[index] = parseFloat(k).toFixed(1);
+    });
+    
+    changeShaders("vertexShader", "fragmentShader_10", kernelVals);
+    
+  });
+  
   //Stack effects
   $("#btn_stack").click(function () {
     stackEffect();
     
   });
+  
+  $(".expander").simpleexpand();
   
   window.addEventListener('resize', function () {
     if (viewport !== undefined) {

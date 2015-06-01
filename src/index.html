@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="stylesheets/main.css">
   <script src="scripts/bower_components/three.js/three.min.js"></script>
   <script src="scripts/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="scripts/simpleExpand.js"></script>
   <script src="scripts/main.js"></script>
   <script src="scripts/ThreeViewport.js"></script>
   
@@ -267,6 +268,63 @@
 
   </script>
   
+  <script name="rgb_to_binary"
+          id="fragmentShader_9"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imgWidth;
+    uniform float imgHeight;
+
+    void main(){
+
+      //luminosity is the most appealing type of grayscale
+      //luminosty = 0.21R + 0.72G + 0.07B
+
+      vec4 img = texture2D(editImg, vUv);
+      
+      float pixelValue = (img.r + img.g + img.b)/3.0;
+      if(pixelValue <= 0.5){
+        img.r = 0.0;
+        img.g = 0.0;
+        img.b = 0.0;
+        
+      } else {
+        img.r = 1.0;
+        img.g = 1.0;
+        img.b = 1.0;
+        
+      }
+                            
+      gl_FragColor = img;
+
+    }
+
+  </script>
+  
+  <script name="custom3x3"
+          id="fragmentShader_10"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imgWidth;
+    uniform float imgHeight;
+    uniform mat3 userDef;
+
+    void main(){
+
+      vec4 img = texture2D(editImg, vUv);
+      
+      img.r = userDef[0][0];
+      
+      gl_FragColor = img;
+
+    }
+
+  </script>
+  
   <!-- End of Shaders -->
 </head>
 
@@ -291,16 +349,64 @@
       <button id="test">Menu</button>
       
       <div id="menuContainer">
-        <button id="btn_e0">Undo Last Effect</button>
-        <button id="btn_e1">Green -> Blue</button>
-        <button id="btn_e2">Invert Colours</button>
-        <button id="btn_e3">Red -> Blue</button>
-        <button id="btn_e4">Invert Blue</button>
-        <button id="btn_e5">Fast Blur</button>
-        <button id="btn_e6">Fast Bloom</button>
-        <button id="btn_e7">Detect Edges</button>
-        <button id="btn_e8">Make Grayscale</button>
-        <button id="btn_stack">Stack Effect</button>
+        
+        <div id="title">glimgfx</div>
+        <div class="btn" id="btn_e0">Undo Last Effect</div>
+        <div class="btn" id="btn_e1">Green is Blue</div>
+        <div class="btn" id="btn_e2">Invert Colours</div>
+        <div class="btn" id="btn_e3">Red is Blue</div>
+        <div class="btn" id="btn_e4">Invert Blue</div>
+        <div class="btn" id="btn_e5">Fast Blur</div>
+        <div class="btn" id="btn_e6">Fast Bloom</div>
+        <div class="btn" id="btn_e7">Detect Edges</div>
+        <div class="btn" id="btn_e8">Make Grayscale</div>
+        <div class="btn" id="btn_e9">Make Binary</div>
+        <div class="btn" id="btn_stack">Stack Effect</div>
+        
+        <div class="expander" id="rollout" href="#">Custom Convolution</div>
+        <div class="content">
+          <table id="convolutionFilter">
+            
+            <tr id="row1">
+              <td id="column1">
+                <input class="kernel" id="k0" type="text" value="0">
+              </td>
+              <td id="column2">
+                <input class="kernel" id="k1" type="text" value="0">
+              </td>
+              <td id="column3">
+                <input class="kernel" id="k2" type="text" value="0">
+              </td>
+            </tr>
+            
+            <tr id="row2">
+              <td id="column1">
+                <input class="kernel" id="k3" type="text" value="0">
+              </td>
+              <td id="column2">
+                <input class="kernel" id="k4" type="text" value="0">
+              </td>
+              <td id="column3">
+                <input class="kernel" id="k5" type="text" value="0">
+              </td>
+            </tr>
+            
+            <tr id="row3">
+              <td id="column1">
+                <input class="kernel" id="k6" type="text" value="0">
+              </td>
+              <td id="column2">
+                <input class="kernel" id="k7" type="text" value="0">
+              </td>
+              <td id="column3">
+                <input class="kernel" id="k8" type="text" value="0">
+              </td>
+            </tr>
+            
+          </table>
+          <div class="btn" id="btn_e10">Apply Filter</div>
+        </div>
+        
         <a id="link_download">Download Result (experimental)</a>
       </div>
       
