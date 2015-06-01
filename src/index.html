@@ -314,12 +314,43 @@
     uniform mat3 userDef;
 
     void main(){
+    
+      //single pixel step = 1/dimension
+      vec2 onePixl = vec2(1.0 / imgWidth, 1.0 / imgHeight);
 
-      vec4 img = texture2D(editImg, vUv);
+      //Manually check neigbouring pixels and calc. color sum
+      //spec does not allow variables as array indices
+      vec4 colorSum =
+        texture2D(editImg, vUv + onePixl * vec2(-1.0, -1.0)) * userDef[0][0] +
+        texture2D(editImg, vUv + onePixl * vec2( 0.0, -1.0)) * userDef[1][0] +
+        texture2D(editImg, vUv + onePixl * vec2( 1.0, -1.0)) * userDef[2][0] +
+        texture2D(editImg, vUv + onePixl * vec2(-1.0,  0.0)) * userDef[0][1] +
+        texture2D(editImg, vUv + onePixl * vec2( 0.0,  0.0)) * userDef[1][1] +
+        texture2D(editImg, vUv + onePixl * vec2( 1.0,  0.0)) * userDef[2][1] +
+        texture2D(editImg, vUv + onePixl * vec2(-1.0,  1.0)) * userDef[0][2] +
+        texture2D(editImg, vUv + onePixl * vec2( 0.0,  1.0)) * userDef[1][2] +
+        texture2D(editImg, vUv + onePixl * vec2( 1.0,  1.0)) * userDef[2][2];
       
-      img.r = userDef[0][0];
+      //calculate kernel weight
+      float kernelWeight =
+        userDef[0][0] +
+        userDef[1][0] +
+        userDef[2][0] +
+        userDef[0][1] +
+        userDef[1][1] +
+        userDef[2][1] +
+        userDef[0][2] +
+        userDef[1][2] +
+        userDef[2][2];
+        
+      //prevent division by zero
+      if (kernelWeight <= 0.0) {
+        kernelWeight = 1.0;
+      }
       
-      gl_FragColor = img;
+      //divide colorSum by kernelWeight
+      gl_FragColor = vec4((colorSum / kernelWeight).rgb, 1.0);
+      //gl_FragColor = vec4(0.0, userDef[0][1], 0.0, 1.0);
 
     }
 

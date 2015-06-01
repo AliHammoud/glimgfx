@@ -90,6 +90,9 @@ var ThreeViewport = function (domElement) {
       imgObj.scale.set(imgScale, imgScale, 1);
       scene.add(imgObj);
       
+      //reset uniforms
+      unifs = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+      
     },
       
     //Handle viewport dimensions to match image dimensions
