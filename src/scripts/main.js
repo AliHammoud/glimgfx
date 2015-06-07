@@ -9,7 +9,7 @@ var
   sidebar_is_open = true;
 
 /* utilities */
-function changeShaders(vS, fS, unifs) {
+function changeShaders(vS, fS, unifs, uType) {
   
   try {
     if (canvas === null) {
@@ -20,7 +20,7 @@ function changeShaders(vS, fS, unifs) {
         vShader = document.getElementById(vS).innerHTML,
         fShader = document.getElementById(fS).innerHTML;
 
-      viewport.updateShader(vShader, fShader, unifs);
+      viewport.updateShader(vShader, fShader, unifs, uType);
 
     }
 
@@ -122,9 +122,26 @@ function stackEffect() {
 
 /* on document ready */
 $(document).ready(function () {
-
+  
+  //jQueryUI
+  $("#slider").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      $("#in_f0").val(ui.value + "%");
+    }
+  });
+  
+  $("#in_f0").change(function() {
+    $( "#slider" ).slider( "value", $(this).val() );
+    $("#in_f0").val($("#in_f0").val() + "%");
+    
+  });
+  
+  //end of jQueryUI
+  
   /* side menu */
-  $("#test").click(function () {
+  $("#menu").click(function () {
 
     if (!sidebar_is_open) {
       openSidebar();
@@ -176,9 +193,16 @@ $(document).ready(function () {
   });
   
   /* effects change */
+  
   //Shader 0: No effect
   $("#btn_e0").click(function () {
     changeShaders("vertexShader", "fragmentShader_0");
+  });
+  
+  //Stack effects
+  $("#btn_stack").click(function () {
+    stackEffect();
+
   });
   
   //Shader 1: Green is blue
@@ -201,12 +225,12 @@ $(document).ready(function () {
     changeShaders("vertexShader", "fragmentShader_4");
   });
   
-  //Shader 5: ghosting
+  //Shader 5: fast blur
   $("#btn_e5").click(function () {
     changeShaders("vertexShader", "fragmentShader_5");
   });
   
-  //Shader 6: Detect edges
+  //Shader 6: fast bloom
   $("#btn_e6").click(function () {
     changeShaders("vertexShader", "fragmentShader_6");
   });
@@ -216,40 +240,56 @@ $(document).ready(function () {
     changeShaders("vertexShader", "fragmentShader_7");
   });
   
+  //Shader 8: rgb to grayscale
   $("#btn_e8").click(function () {
     changeShaders("vertexShader", "fragmentShader_8");
   });
   
+  //Shader 9: rgb to binary
   $("#btn_e9").click(function () {
     changeShaders("vertexShader", "fragmentShader_9");
   });
   
+  //Shader 10: Custom 3x3 convolution
   $("#btn_e10").click(function () {
     
     //store all the kernel values in array
     var kernelVals = [];
     
     //get every kernel input value
-    $(".kernel").each(function(index){
+    $(".kernel").each(function (index) {
       var k = $(this).val();
       kernelVals[index] = parseFloat(k).toFixed(1);
     });
     
-    changeShaders("vertexShader", "fragmentShader_10", kernelVals);
+    changeShaders("vertexShader", "fragmentShader_10", kernelVals, "m3");
     
   });
   
-  //Stack effects
-  $("#btn_stack").click(function () {
-    stackEffect();
+  //Shader 11: Chroma key removal
+  $("#btn_e11").click(function () {
+    
+    var unif = $("#in_f0").val().replace("%", "")/100;
+    changeShaders("vertexShader", "fragmentShader_11", unif, "f");
     
   });
   
-  $(".expander").simpleexpand();
+  /* End of effects change */
+  
+  //Automate rollout initialisation
+  $(".expander").each(function (index) {
+    
+    //.each counts from 0
+    index += 1;
+    var target = "#rollout" + (index);
+    $(target).simpleexpand({defaultTarget: '.content' + (index)});
+    
+  });
   
   window.addEventListener('resize', function () {
     if (viewport !== undefined) {
       viewport.resizeViewport();
+      
     }
     
   });

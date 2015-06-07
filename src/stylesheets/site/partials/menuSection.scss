@@ -5,19 +5,22 @@ $fontSize: 10pt;
 $triangleSize: 5px;
 
 $menuWidth: 200px;
+$itemMargin: 10px;
 $menuHeight: 100%;
 $menuOpacity: 0.875;
+
+$sliderBorder: 2px;
 
 .btn {
   -webkit-border-radius: 60;
   -moz-border-radius: 60;
   border-radius: 60px;
   font-family: Arial;
-  color: #ffffff;
-  font-size: 10pt;
-  background: #000000;
+  color: $fontColor;
+  font-size: $fontSize;
+  background: black;
   padding: 5pt 10pt 5pt 10pt;
-  border: solid #ffffff 2px;
+  border: solid $fontColor 2px;
   text-decoration: none;
   cursor: pointer;
   
@@ -28,17 +31,12 @@ $menuOpacity: 0.875;
   text-decoration: none;
 }
 
-#rollout {
-  font-family: "helvetica";
-  color: $fontColor;
-  font-size: $fontSize;
-
-}
-
 .expander {
   margin-top: 30px;
   cursor: pointer;
-  
+  font-family: "helvetica";
+  color: $fontColor;
+  font-size: $fontSize;
 }
 
 .expander.collapsed {
@@ -89,8 +87,8 @@ $menuOpacity: 0.875;
 }
 
 #convolutionFilter {
-  margin-top: 10px;
-  margin-left: 20px;
+  margin-top: $itemMargin;
+  margin-left: $itemMargin*2;
 
 }
 
@@ -104,10 +102,11 @@ $menuOpacity: 0.875;
   height: $menuHeight;
   position: absolute;
   opacity: $menuOpacity;
+  overflow-y:auto;
   
 }
 
-#test {
+#menu {
   position: absolute;
   margin-left: $menuWidth - 50px;
   margin-top: 10px;
@@ -128,7 +127,7 @@ $menuOpacity: 0.875;
 
 #menuContainer .btn, #title, a, p {
   display: flex;
-  margin: 10px;
+  margin: $itemMargin;
 }
 
 #menuContainer a:hover {
@@ -137,8 +136,70 @@ $menuOpacity: 0.875;
   cursor: pointer;
 }
 
+#menuContainer p {
+  font-family: Arial;
+  color: $fontColor;
+  font-size: $fontSize;
+}
+
 #menuContainer a {
   font-family: sans-serif;
   font-size: $fontSize;
   color: $fontColor;
+}
+
+#menuContainer input.numeric {
+  display: inline-flex;
+  margin-left: $itemMargin*2;
+  width: 40px;
+}
+
+#slider {
+  margin-top: $itemMargin*2;
+  margin-left: $itemMargin*2;
+  margin-bottom: $itemMargin*2;
+}
+
+.ui-slider-horizontal {
+  
+  width: 140px;
+  border-radius: 10px;
+  border: none !important;
+  height: 2px !important;
+  background-image: none !important;
+  background-color: gray !important;
+  
+}
+
+.ui-widget * { 
+  background-image: none !important;
+  border: none !important;
+  outline: none;
+
+}
+
+.ui-slider-horizontal .ui-slider-handle {
+  
+  border-radius: 10px;
+  
+  margin-top: -$sliderBorder !important;
+  
+  width: 30px !important;
+  height: 10px !important;
+  cursor: pointer !important;
+  
+  background-color: black !important;
+  color: none !important;
+  
+  border: $sliderBorder solid white !important;
+}
+
+.ui-widget :hover {
+
+  background-color: white !important;
+}
+
+.ui-widget :active {
+
+  background-color: white !important;
 }

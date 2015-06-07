@@ -5,11 +5,16 @@
 <head>
   <link rel="icon" href="img/favicon.png">
   <link rel="stylesheet" href="stylesheets/main.css">
+  
   <script src="scripts/bower_components/three.js/three.min.js"></script>
   <script src="scripts/bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="scripts/simpleExpand.js"></script>
+  
+  <link rel="stylesheet" href="scripts/jquery-ui-1.11.4.custom/jquery-ui.css">
+  <script src="scripts/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+  
   <script src="scripts/main.js"></script>
   <script src="scripts/ThreeViewport.js"></script>
+  <script src="scripts/simpleExpand.js"></script>
   
   <!-- Shaders -->
   <script id="vertexShader" 
@@ -182,7 +187,7 @@
     uniform float imgWidth;
     uniform float imgHeight;
     
-    //check if pixel within threshold, like clamp but with early returns
+    //check if pixel within threshold, like clamp() but with early returns
     float threshold(float minThresh, float maxThresh, float val) {
       if(val < minThresh) {return 1.0;}
       if(val > maxThresh) {return 0.0;}
@@ -317,9 +322,10 @@
     
       //single pixel step = 1/dimension
       vec2 onePixl = vec2(1.0 / imgWidth, 1.0 / imgHeight);
-
+      
       //Manually check neigbouring pixels and calc. color sum
-      //spec does not allow variables as array indices
+      //Note: spec does not allow variables as array indices
+      
       vec4 colorSum =
         texture2D(editImg, vUv + onePixl * vec2(-1.0, -1.0)) * userDef[0][0] +
         texture2D(editImg, vUv + onePixl * vec2( 0.0, -1.0)) * userDef[1][0] +
@@ -350,10 +356,99 @@
       
       //divide colorSum by kernelWeight
       gl_FragColor = vec4((colorSum / kernelWeight).rgb, 1.0);
-      //gl_FragColor = vec4(0.0, userDef[0][1], 0.0, 1.0);
+    }
+
+  </script>
+  
+  <script name="remove_removal"
+          id="fragmentShader_11"
+          type="x-shader/x-fragment" >
+          
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imgWidth;
+    uniform float imgHeight;
+    uniform float userDef;
+    
+    //check if pixel within threshold, like clamp() but with early returns
+    float threshold(float minThresh, float maxThresh, float val) {
+      if(val < minThresh) {return 1.0;}
+      if(val > maxThresh) {return 0.0;}
+      return val;
 
     }
 
+    //calculate pixel's colour channel average
+    float avg_intensity(vec4 pix) {
+      return (pix.r + pix.g + pix.b)/3.0;
+
+    }
+
+    //get pixel with coordinate offset
+    vec4 get_pixel(vec2 coord, float offX, float offY) {
+      return texture2D(editImg, coord + vec2(offX, offY));
+
+    }
+
+    //apply edge detecting formula on 8-neighbours
+    float isEdge(vec2 coords) {
+    
+      //single pixel step = 1/dimension
+      float offsetX = 1.0 / imgWidth;
+      float offsetY = 1.0 / imgHeight;
+      
+      //array of neigbours
+      float pix[9];
+
+      //Manually check neigbouring pixels and calc. avg intensity
+      //spec does not allow variables as array indices
+      pix[0] = avg_intensity(get_pixel(coords,-1.0*offsetX,-1.0*offsetY));
+      pix[1] = avg_intensity(get_pixel(coords,-1.0*offsetX, 0.0*offsetY));
+      pix[2] = avg_intensity(get_pixel(coords,-1.0*offsetX, 1.0*offsetY));
+      pix[3] = avg_intensity(get_pixel(coords, 0.0*offsetX,-1.0*offsetY));
+      pix[5] = avg_intensity(get_pixel(coords, 0.0*offsetX, 1.0*offsetY));
+      pix[6] = avg_intensity(get_pixel(coords, 1.0*offsetX,-1.0*offsetY));
+      pix[7] = avg_intensity(get_pixel(coords, 1.0*offsetX, 0.0*offsetY));
+      pix[8] = avg_intensity(get_pixel(coords, 1.0*offsetX, 1.0*offsetY));
+
+      //apply edge detection formula
+      float result = (abs(pix[1] - pix[7]) + 
+               abs(pix[5] - pix[3]) +
+               abs(pix[0] - pix[8]) +
+               abs(pix[2] - pix[6]) / 4.0);
+
+      return threshold(0.25, 0.4, clamp(1.5*result, 0.0, 1.0));
+
+    }
+    
+    //TODO convert isEdge to return boolean, and do calculation.
+    
+    void main(){
+    
+      vec4 img = texture2D(editImg, vUv);
+      float alphaVal = 1.0;
+      vec3 fClr;
+      
+      /*
+      Check if the fragment is green and check if 
+      it is "greener" than the set threshold, if it's
+      value is larger than the threshold, make its 
+      alpha = 0.0, and remove the background for demo.
+      */
+      
+      if ((img.g - (img.r + img.b)) >= userDef){
+        alphaVal = 0.0;
+        fClr = vec3 (1.0, 1.0, 1.0);
+        
+      } else {
+        alphaVal = 1.0;
+        fClr = vec3 (img.r, img.g, img.b);
+      }
+      
+      gl_FragColor = vec4(fClr, alphaVal);
+
+    }
+    
   </script>
   
   <!-- End of Shaders -->
@@ -377,25 +472,34 @@
     
     <div id="menuSection">
       
-      <button id="test">Menu</button>
+      <button id="menu">Menu</button>
       
       <div id="menuContainer">
         
         <div id="title">glimgfx</div>
+        
         <div class="btn" id="btn_e0">Undo Last Effect</div>
-        <div class="btn" id="btn_e1">Green is Blue</div>
-        <div class="btn" id="btn_e2">Invert Colours</div>
-        <div class="btn" id="btn_e3">Red is Blue</div>
-        <div class="btn" id="btn_e4">Invert Blue</div>
-        <div class="btn" id="btn_e5">Fast Blur</div>
-        <div class="btn" id="btn_e6">Fast Bloom</div>
-        <div class="btn" id="btn_e7">Detect Edges</div>
-        <div class="btn" id="btn_e8">Make Grayscale</div>
-        <div class="btn" id="btn_e9">Make Binary</div>
         <div class="btn" id="btn_stack">Stack Effect</div>
         
-        <div class="expander" id="rollout" href="#">Custom Convolution</div>
-        <div class="content">
+        <div class="expander" id="rollout1" href="#">Color Manipulation</div>
+        <div class="content1">
+          <div class="btn" id="btn_e9">Make Binary</div>
+          <div class="btn" id="btn_e8">Make Grayscale</div>
+          <div class="btn" id="btn_e2">Invert Colours</div>
+          <div class="btn" id="btn_e1">Green is Blue</div>
+          <div class="btn" id="btn_e3">Red is Blue</div>
+          <div class="btn" id="btn_e4">Invert Blue</div>
+        </div>
+        
+        <div class="expander" id="rollout2" href="#">Basic Kernel Effects</div>
+        <div class="content2">
+          <div class="btn" id="btn_e5">Fast Blur</div>
+          <div class="btn" id="btn_e6">Fast Bloom</div>
+          <div class="btn" id="btn_e7">Detect Edges</div>
+        </div>
+        
+        <div class="expander" id="rollout3" href="#">Custom Convolution</div>
+        <div class="content3">
           <table id="convolutionFilter">
             
             <tr id="row1">
@@ -436,6 +540,16 @@
             
           </table>
           <div class="btn" id="btn_e10">Apply Filter</div>
+        </div>
+        
+        <div class="expander" id="rollout4" href="#">Chroma Key Removal</div>
+        <div class="content4">
+          
+          <p>Threshold:</p>
+          <input class="numeric" id="in_f0" type="text" value="0%">
+          <div id="slider"></div>
+          
+          <div class="btn" id="btn_e11">Remove Chroma</div>
         </div>
         
         <a id="link_download">Download Result (experimental)</a>

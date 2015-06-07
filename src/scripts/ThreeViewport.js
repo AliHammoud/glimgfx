@@ -55,7 +55,9 @@ var ThreeViewport = function (domElement) {
     },
       
     //Creates and adds a new image plane with updated dimensions to scene
-    addImgPlane = function (imgScale, vS, fS, texture, unifs) {
+    addImgPlane = function (imgScale, vS, fS, texture, unifs, uType) {
+      
+      var initUnif;
       
       //Check if an image plane exists in scene and delete it
       if (scene.getObjectByName("imagePlane")) {
@@ -63,23 +65,43 @@ var ThreeViewport = function (domElement) {
         
       }
       
-      //Prevent error if uniforms were not defined
-      if (unifs === undefined) {
-        unifs = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+      switch(uType){
+        case "m3":
+          
+          //Prevent error if uniforms were not defined
+          if (unifs === undefined) {
+            initUnif = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
+            
+          } else {
+            initUnif = new THREE.Matrix3().set(unifs[0], unifs[1], unifs[2],
+                                               unifs[3], unifs[4], unifs[5],
+                                               unifs[6], unifs[7], unifs[8]
+                                              );
+          }
+          
+          break;
+          
+        case "f":
+          
+          //Prevent error if uniform not defined
+          if (unifs === undefined) {
+            initUnif = 0.0;
+            
+          } else {
+            initUnif = unifs;
+            
+          }
+          break;
       }
       
       //initialise new image plane
       var
-        theMatrix = new THREE.Matrix3().set(unifs[0], unifs[1], unifs[2],
-                                            unifs[3], unifs[4], unifs[5],
-                                            unifs[6], unifs[7], unifs[8]
-                                           ),
         imgGeo = new THREE.PlaneBufferGeometry(WINASPECT, 1, 1, 1),
         imgMat = new THREE.ShaderMaterial({
           uniforms: {editImg:   {type: "t",   value: texture},
                      imgWidth:  {type: "f",   value: IMGWIDTH},
                      imgHeight: {type: "f",   value: IMGHEIGHT},
-                     userDef:   {type: "m3",  value: theMatrix}
+                     userDef:   {type: uType,  value: initUnif}
                     },
           vertexShader: vS,
           fragmentShader: fS
@@ -147,7 +169,7 @@ var ThreeViewport = function (domElement) {
   renderer.setClearColor(0x223366);
   domElement.appendChild(renderer.domElement);
   
-  ThreeViewport.prototype.updateShader = function (vS, fS, unifs) {
+  ThreeViewport.prototype.updateShader = function (vS, fS, unifs, uType) {
     this.vShader = vS;
     this.fShader = fS;
     this.img.src = sessionStorage.getItem("editImg");
@@ -179,7 +201,7 @@ var ThreeViewport = function (domElement) {
     //Set the viewport to handle different image dimensions
     fitViewportToImage();
     var bestfit = Math.tan(camera.fov * Math.PI / 180 * 0.5) * IMGZOOM * 2;
-    addImgPlane(bestfit, this.vShader, this.fShader, this.tex, unifs);
+    addImgPlane(bestfit, this.vShader, this.fShader, this.tex, unifs, uType);
     
     renderScene("Scene refresh");
     
