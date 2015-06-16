@@ -47,10 +47,6 @@ function openSidebar() {
   
 }
 
-function initializeCanvasFirstTime(){
-  
-}
-
 function readImageFile(file) {
   var
     reader = new FileReader(),
@@ -70,19 +66,23 @@ function readImageFile(file) {
       sessionStorage.setItem("editImg", img.src);
       imageArea.innerHTML = "";
       
+      
       //Add default shader (no effect)
       var
         vShader = document.getElementById("vertexShader").innerHTML,
         fShader = document.getElementById("fragmentShader_0").innerHTML;
       
       //Create a canvas with our image
-      viewport = new ThreeViewport(imageArea);
-      
-      $("canvas").attr("id", "imgCanvas");
-      theCanvas = document.getElementById("imgCanvas");
-      //Bind shader to image (before it is loaded)
-      //setTimeout
-      //viewport.updateShader(vShader, fShader);
+      //Have to wait a split-second for the image to be ready in sessionStorage
+      setTimeout(function(){ 
+        viewport = new ThreeViewport(imageArea);
+
+        $("canvas").attr("id", "imgCanvas");
+        theCanvas = document.getElementById("imgCanvas");
+        //Bind shader to image (before it is loaded)
+        viewport.updateShader(vShader, fShader);
+        
+      }, 1);
       
       if (sidebar_is_open) {
         closeSidebar();
