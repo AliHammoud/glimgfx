@@ -5,12 +5,15 @@
 <head>
   <link rel="icon" href="img/favicon.png">
   <link rel="stylesheet" href="stylesheets/main.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+        rel="stylesheet">
   
   <script src="scripts/bower_components/three.js/three.min.js"></script>
   <script src="scripts/bower_components/jquery/dist/jquery.min.js"></script>
   
   <link rel="stylesheet" href="scripts/jquery-ui-1.11.4.custom/jquery-ui.css">
   <script src="scripts/jquery-ui-1.11.4.custom/jquery-ui.min.js"></script>
+  <script src="scripts/jQueryUI_touch.js"></script>
   
   <script src="scripts/main.js"></script>
   <script src="scripts/ThreeViewport.js"></script>
@@ -218,7 +221,7 @@
       float pix[9];
 
       //Manually check neigbouring pixels and calc. avg intensity
-      //spec does not allow variables as array indices
+      //Note: spec does not allow variables as array indices must use #define
       pix[0] = avg_intensity(get_pixel(coords,-1.0*offsetX,-1.0*offsetY));
       pix[1] = avg_intensity(get_pixel(coords,-1.0*offsetX, 0.0*offsetY));
       pix[2] = avg_intensity(get_pixel(coords,-1.0*offsetX, 1.0*offsetY));
@@ -456,7 +459,6 @@
 
 <body>
   <div id="container">
-
     <div id="imageSection">
       <div id="img_container">
         <div id="dragDropRegion">
@@ -472,30 +474,65 @@
     
     <div id="menuSection">
       
-      <button id="menu">Menu</button>
+      <div class="btn open" id="menu">
+        <i id="menuIcon" class="material-icons md-48">arrow_forward</i>
+      </div>
       
       <div id="menuContainer">
         
         <div id="title">glimgfx</div>
         
-        <div class="btn" id="btn_e0">Undo Last Effect</div>
-        <div class="btn" id="btn_stack">Stack Effect</div>
+        <div class="btn" id="btn_e0">Undo Last Effect
+          <i id="btnIcon" class="material-icons md-48">undo</i>
+        </div>
+        
+        <div class="btn" id="btn_stack">Stack Effect
+          <i id="btnIcon" class="material-icons md-48">playlist_add</i>
+        </div>
         
         <div class="expander" id="rollout1" href="#">Color Manipulation</div>
         <div class="content1">
-          <div class="btn" id="btn_e9">Make Binary</div>
-          <div class="btn" id="btn_e8">Make Grayscale</div>
-          <div class="btn" id="btn_e2">Invert Colours</div>
-          <div class="btn" id="btn_e1">Green is Blue</div>
-          <div class="btn" id="btn_e3">Red is Blue</div>
-          <div class="btn" id="btn_e4">Invert Blue</div>
+          
+          <div class="btn" id="btn_e9">Make Binary
+            <i id="btnIcon" class="material-icons md-48">filter_b_and_w</i>
+          </div>
+          
+          <div class="btn" id="btn_e8">Make Grayscale
+            <i id="btnIcon" class="material-icons md-48">monochrome_photos</i>
+          </div>
+          
+          <div class="btn" id="btn_e2">Invert Colours
+            <i id="btnIcon" class="material-icons md-48">invert_colors</i>
+          </div>
+          
+          <div class="btn" id="btn_e1">Green is Blue
+            <i id="btnIcon" class="material-icons md-48">shuffle</i>
+          </div>
+          
+          <div class="btn" id="btn_e3">Red is Blue
+            <i id="btnIcon" class="material-icons md-48">shuffle</i>
+          </div>
+          
+          <div class="btn" id="btn_e4">Invert Blue
+            <i id="btnIcon" class="material-icons md-48">shuffle</i>
+          </div>
+          
         </div>
         
         <div class="expander" id="rollout2" href="#">Basic Kernel Effects</div>
         <div class="content2">
-          <div class="btn" id="btn_e5">Fast Blur</div>
-          <div class="btn" id="btn_e6">Fast Bloom</div>
-          <div class="btn" id="btn_e7">Detect Edges</div>
+          <div class="btn" id="btn_e5">Fast Blur
+            <i id="btnIcon" class="material-icons md-48">blur_on</i>
+          </div>
+          
+          <div class="btn" id="btn_e6">Fast Bloom
+            <i id="btnIcon" class="material-icons md-48">adjust</i>
+          </div>
+          
+          <div class="btn" id="btn_e7">Detect Edges
+            <i id="btnIcon" class="material-icons md-48">select_all</i>
+          </div>
+          
         </div>
         
         <div class="expander" id="rollout3" href="#">Custom Convolution</div>
@@ -539,7 +576,11 @@
             </tr>
             
           </table>
-          <div class="btn" id="btn_e10">Apply Filter</div>
+          
+          <div class="btn" id="btn_e10">Apply Filter
+            <i id="btnIcon" class="material-icons md-48">border_inner</i>
+          </div>
+          
         </div>
         
         <div class="expander" id="rollout4" href="#">Chroma Key Removal</div>
@@ -549,10 +590,17 @@
           <input class="numeric" id="in_f0" type="text" value="0%">
           <div id="slider"></div>
           
-          <div class="btn" id="btn_e11">Remove Chroma</div>
+          <div class="btn" id="btn_e11">Remove Chroma
+            <i id="btnIcon" class="material-icons md-48">tune</i>
+          </div>
+          
         </div>
         
-        <a id="link_download">Download Result (experimental)</a>
+        <div class="btn" id="download">
+          <a id="link_download">Download Result</a>
+          <i id="btnIcon" class="material-icons md-48">file_download</i>
+        </div>
+        
       </div>
       
     </div>

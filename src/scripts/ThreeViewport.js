@@ -22,7 +22,7 @@ var ThreeViewport = function (domElement) {
   /* Attributes */
   
   var
-      
+    
     //Dimension variables
     WINWIDTH  = window.innerWidth,
     WINHEIGHT = window.innerHeight,
@@ -180,10 +180,8 @@ var ThreeViewport = function (domElement) {
       function () {renderScene("Update Shader: texture reload"); }
     );
 
-    /*
-      Check if image is power of two and apply appropriate
-      texture filter
-    */
+    //Check if image is power of two and apply appropriate
+    //texture filter
     if (IMGWIDTH / 8   % 1 === 0 &&
         IMGHEIGHT / 8  % 1 === 0) {
       //image is power of two! Interpolate linearly.

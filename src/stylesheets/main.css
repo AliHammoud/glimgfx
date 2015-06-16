@@ -9,7 +9,8 @@
   padding: 5pt 10pt 5pt 10pt;
   border: solid #ffffff 2px;
   text-decoration: none;
-  cursor: pointer; }
+  cursor: pointer;
+  position: relative; }
 
 .btn:hover {
   background: #777777;
@@ -23,18 +24,6 @@
   font-size: 10pt; }
 
 .expander.collapsed {
-  /* CSS Approach
-  &::before {
-    display: inline;
-    content: ""; 
-    width: 0; 
-    height: 0; 
-    border-top: $triangleSize solid transparent;
-    border-bottom: $triangleSize solid transparent;
-    border-left: $triangleSize solid white;
-    
-  }
-  */
   padding-left: 20px;
   background-position: left center;
   background-repeat: no-repeat;
@@ -42,18 +31,6 @@
   background-size: contain; }
 
 .expander.expanded {
-  /* CSS Approach
-  &::before {
-    display: inline;
-    content: ""; 
-    width: 0; 
-    height: 0; 
-    border-left: $triangleSize solid transparent;
-    border-right: $triangleSize solid transparent;
-    border-top: $triangleSize solid white;
-    
-  }
-  */
   padding-left: 20px;
   background-position: left center;
   background-repeat: no-repeat;
@@ -63,6 +40,35 @@
 .content {
   display: none;
   cursor: pointer; }
+
+.ui-slider-horizontal {
+  width: 140px;
+  border-radius: 10px;
+  border: none !important;
+  height: 2px !important;
+  background-image: none !important;
+  background-color: gray !important; }
+
+.ui-widget * {
+  background-image: none !important;
+  border: none !important;
+  outline: none; }
+
+.ui-slider-horizontal .ui-slider-handle {
+  border-radius: 10px;
+  margin-top: -2px !important;
+  width: 30px !important;
+  height: 10px !important;
+  cursor: pointer !important;
+  background-color: black !important;
+  color: none !important;
+  border: 2px solid white !important; }
+
+.ui-widget :hover {
+  background-color: white !important; }
+
+.ui-widget :active {
+  background-color: white !important; }
 
 #convolutionFilter {
   margin-top: 10px;
@@ -80,10 +86,48 @@
   overflow-y: auto; }
 
 #menu {
+  background: none !important;
   position: absolute;
-  margin-left: 150px;
-  margin-top: 10px; }
+  width: 1px;
+  height: 15px;
+  right: 10px;
+  top: 10px; }
 
+#menu :hover {
+  background: none !important; }
+
+.open :hover {
+  animation-name: rotateOpen;
+  animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-duration: 0.5s; }
+
+@keyframes rotateOpen {
+  0% {
+    transform: rotate(0deg); }
+  50% {
+    transform: rotate(200deg); }
+  100% {
+    transform: rotate(180deg); } }
+.closed :hover {
+  animation-name: rotateClosed;
+  animation-iteration-count: infinite;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-duration: 1.5s; }
+
+@keyframes rotateClosed {
+  0% {
+    transform: translate(0px, 0px); }
+  25% {
+    transform: translate(-2px, 0px); }
+  30% {
+    transform: translate(7px, 0px); }
+  65% {
+    transform: translate(5px, 0px); }
+  100% {
+    transform: translate(0px, 0px); } }
 #title {
   font-size: 25pt;
   font-family: "americantypewriter", monospace;
@@ -122,42 +166,32 @@
   margin-left: 20px;
   margin-bottom: 20px; }
 
-.ui-slider-horizontal {
-  width: 140px;
-  border-radius: 10px;
-  border: none !important;
-  height: 2px !important;
-  background-image: none !important;
-  background-color: gray !important; }
+.over {
+  animation-name: pulsate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite; }
 
-.ui-widget * {
-  background-image: none !important;
-  border: none !important;
-  outline: none; }
-
-.ui-slider-horizontal .ui-slider-handle {
-  border-radius: 10px;
-  margin-top: -2px !important;
-  width: 30px !important;
-  height: 10px !important;
-  cursor: pointer !important;
-  background-color: black !important;
-  color: none !important;
-  border: 2px solid white !important; }
-
-.ui-widget :hover {
-  background-color: white !important; }
-
-.ui-widget :active {
-  background-color: white !important; }
-
+@keyframes pulsate {
+  0% {
+    transform: scale(1, 1); }
+  50% {
+    transform: scale(1.15, 1.15); }
+  75% {
+    transform: scale(0.9, 0.9); }
+  100% {
+    transform: scale(1, 1); } }
 #imageSection {
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 100%; }
 
 #imageSection canvas {
-  transform: translate(-50%, -50%); }
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%; }
 
 #imageSection #img_container {
   position: relative;
@@ -168,9 +202,10 @@
 #dragDropRegion {
   width: 250px;
   height: 250px;
-  -ms-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%); }
+  position: absolute;
+  right: -125px;
+  top: -125px;
+  background: #ddd; }
 
 #dragDropRegion img {
   max-height: 100%;
@@ -189,5 +224,23 @@ body {
   margin: 0px;
   background-color: #ddd;
   overflow: hidden; }
+
+i {
+  color: white; }
+
+i :hover {
+  color: red !important; }
+
+a {
+  margin: 0; }
+
+#btnIcon {
+  position: absolute;
+  bottom: 2px;
+  right: 10px; }
+
+#menuIcon {
+  margin-left: -12px;
+  margin-top: -5px; }
 
 /*# sourceMappingURL=main.css.map */

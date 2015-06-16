@@ -23,6 +23,7 @@ $sliderBorder: 2px;
   border: solid $fontColor 2px;
   text-decoration: none;
   cursor: pointer;
+  position: relative;
   
 }
 
@@ -40,18 +41,6 @@ $sliderBorder: 2px;
 }
 
 .expander.collapsed {
-  /* CSS Approach
-  &::before {
-    display: inline;
-    content: ""; 
-    width: 0; 
-    height: 0; 
-    border-top: $triangleSize solid transparent;
-    border-bottom: $triangleSize solid transparent;
-    border-left: $triangleSize solid white;
-    
-  }
-  */
   padding-left: 20px;
   background-position: left center;
   background-repeat: no-repeat;
@@ -61,18 +50,6 @@ $sliderBorder: 2px;
 }
 
 .expander.expanded {
-  /* CSS Approach
-  &::before {
-    display: inline;
-    content: ""; 
-    width: 0; 
-    height: 0; 
-    border-left: $triangleSize solid transparent;
-    border-right: $triangleSize solid transparent;
-    border-top: $triangleSize solid white;
-    
-  }
-  */
   padding-left: 20px;
   background-position: left center;
   background-repeat: no-repeat;
@@ -84,80 +61,6 @@ $sliderBorder: 2px;
 .content {
   display: none;
   cursor: pointer;
-}
-
-#convolutionFilter {
-  margin-top: $itemMargin;
-  margin-left: $itemMargin*2;
-
-}
-
-#convolutionFilter input {
-  width: 20px;
-}
-
-#menuSection {
-  background-color: $menuBgColor;
-  width: $menuWidth;
-  height: $menuHeight;
-  position: absolute;
-  opacity: $menuOpacity;
-  overflow-y:auto;
-  
-}
-
-#menu {
-  position: absolute;
-  margin-left: $menuWidth - 50px;
-  margin-top: 10px;
-  
-}
-
-#title {
-  font-size: 25pt;
-  font-family: "americantypewriter", monospace;
-  align-self: center;
-  color: white;
-}
-
-#menuContainer {
-  margin-top: 45px;
-  
-}
-
-#menuContainer .btn, #title, a, p {
-  display: flex;
-  margin: $itemMargin;
-}
-
-#menuContainer a:hover {
-  background-color: yellow;
-  color: black;
-  cursor: pointer;
-}
-
-#menuContainer p {
-  font-family: Arial;
-  color: $fontColor;
-  font-size: $fontSize;
-}
-
-#menuContainer a {
-  font-family: sans-serif;
-  font-size: $fontSize;
-  color: $fontColor;
-}
-
-#menuContainer input.numeric {
-  display: inline-flex;
-  margin-left: $itemMargin*2;
-  width: 40px;
-}
-
-#slider {
-  margin-top: $itemMargin*2;
-  margin-left: $itemMargin*2;
-  margin-bottom: $itemMargin*2;
 }
 
 .ui-slider-horizontal {
@@ -202,4 +105,122 @@ $sliderBorder: 2px;
 .ui-widget :active {
 
   background-color: white !important;
+}
+
+#convolutionFilter {
+  margin-top: $itemMargin;
+  margin-left: $itemMargin*2;
+
+}
+
+#convolutionFilter input {
+  width: 20px;
+}
+
+#menuSection {
+  background-color: $menuBgColor;
+  width: $menuWidth;
+  height: $menuHeight;
+  position: absolute;
+  opacity: $menuOpacity;
+  overflow-y:auto;
+
+}
+
+#menu {
+  background: none !important;
+  position: absolute;
+  width: 1px;
+  height: 15px;
+  right: $itemMargin;
+  top: $itemMargin;
+
+}
+
+#menu :hover {
+  background: none !important;
+}
+
+.open :hover {
+  animation-name: rotateOpen;
+  animation-iteration-count: 1;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-duration: 0.5s;
+  
+}
+
+@keyframes rotateOpen {
+  0%    {transform: rotate(0deg);}
+  50%   {transform: rotate(200deg);}
+  100%  {transform: rotate(180deg);}
+  
+}
+
+
+.closed :hover {
+  animation-name: rotateClosed;
+  animation-iteration-count: infinite;
+  -webkit-animation-fill-mode: forwards;
+  -moz-animation-fill-mode: forwards;
+  animation-duration: 1.5s;
+  
+}
+
+
+@keyframes rotateClosed {
+  0%    {transform: translate(0px,0px);}
+  25%   {transform: translate(-2px, 0px);}
+  30%   {transform: translate(7px, 0px);}
+  65%   {transform: translate(5px, 0px);}
+  100%  {transform: translate(0px,0px);}
+  
+}
+
+
+#title {
+  font-size: 25pt;
+  font-family: "americantypewriter", monospace;
+  align-self: center;
+  color: white;
+}
+
+#menuContainer {
+  margin-top: 45px;
+
+}
+
+#menuContainer .btn, #title, a, p {
+  display: flex;
+  margin: $itemMargin;
+}
+
+#menuContainer a:hover {
+  background-color: yellow;
+  color: black;
+  cursor: pointer;
+}
+
+#menuContainer p {
+  font-family: Arial;
+  color: $fontColor;
+  font-size: $fontSize;
+}
+
+#menuContainer a {
+  font-family: sans-serif;
+  font-size: $fontSize;
+  color: $fontColor;
+}
+
+#menuContainer input.numeric {
+  display: inline-flex;
+  margin-left: $itemMargin*2;
+  width: 40px;
+}
+
+#slider {
+  margin-top: $itemMargin*2;
+  margin-left: $itemMargin*2;
+  margin-bottom: $itemMargin*2;
 }

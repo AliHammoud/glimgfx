@@ -5,14 +5,14 @@ var
   img,
   viewport,
   menuSlide = '-150px',
-  canvas,
+  theCanvas,
   sidebar_is_open = true;
 
 /* utilities */
 function changeShaders(vS, fS, unifs, uType) {
   
   try {
-    if (canvas === null) {
+    if (theCanvas === null) {
       throw "No canvas yet!";
 
     } else {
@@ -34,14 +34,20 @@ function changeShaders(vS, fS, unifs, uType) {
 function closeSidebar() {
   sidebar_is_open = !sidebar_is_open;
   $("#menuSection").animate({left: menuSlide });
-  $("#test").animate({left: '5px' }, "fast");
+  $("#menu").toggleClass("closed");
+  $("#menu").toggleClass("open");
   
 }
 
 function openSidebar() {
   sidebar_is_open = !sidebar_is_open;
   $("#menuSection").animate({left: '0px' });
-  $("#test").animate({left: '0px' }, "fast");
+  $("#menu").toggleClass("closed");
+  $("#menu").toggleClass("open");
+  
+}
+
+function initializeCanvasFirstTime(){
   
 }
 
@@ -54,6 +60,9 @@ function readImageFile(file) {
   if (file.type.match(imageType)) {
     
     reader.onload = function (e) {
+      
+      e.preventDefault();
+      
       img = new Image();
       img.src = reader.result;
       
@@ -70,9 +79,10 @@ function readImageFile(file) {
       viewport = new ThreeViewport(imageArea);
       
       $("canvas").attr("id", "imgCanvas");
-      canvas = document.getElementById("imgCanvas");
+      theCanvas = document.getElementById("imgCanvas");
       //Bind shader to image (before it is loaded)
-      viewport.updateShader(vShader, fShader);
+      //setTimeout
+      //viewport.updateShader(vShader, fShader);
       
       if (sidebar_is_open) {
         closeSidebar();
@@ -105,7 +115,7 @@ function uploadImg() {
 
 function stackEffect() {
   try {
-    if (canvas === null) {
+    if (theCanvas === null) {
       throw "No canvas yet!";
       
     } else {
@@ -132,6 +142,9 @@ $(document).ready(function () {
     }
   });
   
+  //use jqueryUI touch library
+  $("#slider").draggable();
+  
   $("#in_f0").change(function() {
     $( "#slider" ).slider( "value", $(this).val() );
     $("#in_f0").val($("#in_f0").val() + "%");
@@ -141,7 +154,7 @@ $(document).ready(function () {
   //end of jQueryUI
   
   /* side menu */
-  $("#menu").click(function () {
+  $("#menu").mouseup(function () {
 
     if (!sidebar_is_open) {
       openSidebar();
@@ -154,10 +167,9 @@ $(document).ready(function () {
   });
   
   /* download image */
-  $("#link_download").click(function () {
-    this.href = document.getElementById("imgCanvas").toDataURL();
+  $("#link_download").mousedown(function () {
+    this.href = document.getElementById("imgCanvas").toDataURL("image/png");
     this.download = "glimgfx_img";
-    
   });
   
   /* drag and drop image */
@@ -195,63 +207,63 @@ $(document).ready(function () {
   /* effects change */
   
   //Shader 0: No effect
-  $("#btn_e0").click(function () {
+  $("#btn_e0").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_0");
   });
   
   //Stack effects
-  $("#btn_stack").click(function () {
+  $("#btn_stack").mouseup(function () {
     stackEffect();
 
   });
   
   //Shader 1: Green is blue
-  $("#btn_e1").click(function () {
+  $("#btn_e1").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_1");
   });
   
   //Shader 2: Invert colours
-  $("#btn_e2").click(function () {
+  $("#btn_e2").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_2");
   });
   
   //Shader 3: Red is blue
-  $("#btn_e3").click(function () {
+  $("#btn_e3").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_3");
   });
   
   //Shader 4: Invert blue
-  $("#btn_e4").click(function () {
+  $("#btn_e4").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_4");
   });
   
   //Shader 5: fast blur
-  $("#btn_e5").click(function () {
+  $("#btn_e5").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_5");
   });
   
   //Shader 6: fast bloom
-  $("#btn_e6").click(function () {
+  $("#btn_e6").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_6");
   });
   
   //Shader 7: Detect edges
-  $("#btn_e7").click(function () {
+  $("#btn_e7").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_7");
   });
   
   //Shader 8: rgb to grayscale
-  $("#btn_e8").click(function () {
+  $("#btn_e8").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_8");
   });
   
   //Shader 9: rgb to binary
-  $("#btn_e9").click(function () {
+  $("#btn_e9").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_9");
   });
   
   //Shader 10: Custom 3x3 convolution
-  $("#btn_e10").click(function () {
+  $("#btn_e10").mouseup(function () {
     
     //store all the kernel values in array
     var kernelVals = [];
@@ -267,7 +279,7 @@ $(document).ready(function () {
   });
   
   //Shader 11: Chroma key removal
-  $("#btn_e11").click(function () {
+  $("#btn_e11").mouseup(function () {
     
     var unif = $("#in_f0").val().replace("%", "")/100;
     changeShaders("vertexShader", "fragmentShader_11", unif, "f");

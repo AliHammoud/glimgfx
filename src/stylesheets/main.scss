@@ -9,3 +9,28 @@ body {
   background-color: $bgColor;
   overflow:hidden;
 }
+
+i {
+  color: white;
+}
+
+i :hover {
+  color: red !important;
+}
+
+a {
+  margin: 0;
+}
+
+#btnIcon {
+  
+  position: absolute;
+  bottom: 2px;
+  right: 10px;
+  
+}
+
+#menuIcon {
+  margin-left: -12px;
+  margin-top: -5px;
+}

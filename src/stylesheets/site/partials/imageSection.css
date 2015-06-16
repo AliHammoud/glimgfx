@@ -1,10 +1,29 @@
+.over {
+  animation-name: pulsate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite; }
+
+@keyframes pulsate {
+  0% {
+    transform: scale(1, 1); }
+  50% {
+    transform: scale(1.15, 1.15); }
+  75% {
+    transform: scale(0.9, 0.9); }
+  100% {
+    transform: scale(1, 1); } }
 #imageSection {
-  position: fixed;
+  position: absolute;
   width: 100%;
   height: 100%; }
 
 #imageSection canvas {
-  transform: translate(-50%, -50%); }
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%; }
 
 #imageSection #img_container {
   position: relative;
@@ -15,9 +34,10 @@
 #dragDropRegion {
   width: 250px;
   height: 250px;
-  -ms-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%); }
+  position: absolute;
+  right: -125px;
+  top: -125px;
+  background: #ddd; }
 
 #dragDropRegion img {
   max-height: 100%;
