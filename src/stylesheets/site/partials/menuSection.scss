@@ -138,45 +138,41 @@ $sliderBorder: 2px;
 }
 
 #menu :hover {
-  background: none !important;
-}
+  background: none !important; }
 
 .open :hover {
   animation-name: rotateOpen;
   animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
   -moz-animation-fill-mode: forwards;
-  animation-duration: 0.5s;
-  
-}
+  animation-duration: 0.5s; }
 
 @keyframes rotateOpen {
-  0%    {transform: rotate(0deg);}
-  50%   {transform: rotate(200deg);}
-  100%  {transform: rotate(180deg);}
-  
-}
-
-
+  0% {
+    transform: rotate(0deg); }
+  50% {
+    transform: rotate(200deg); }
+  100% {
+    transform: rotate(180deg); } }
 .closed :hover {
   animation-name: rotateClosed;
   animation-iteration-count: infinite;
   -webkit-animation-fill-mode: forwards;
   -moz-animation-fill-mode: forwards;
-  animation-duration: 1.5s;
-  
-}
-
+  animation-duration: 1.5s; }
 
 @keyframes rotateClosed {
-  0%    {transform: translate(0px,0px);}
-  25%   {transform: translate(-2px, 0px);}
-  30%   {transform: translate(7px, 0px);}
-  65%   {transform: translate(5px, 0px);}
-  100%  {transform: translate(0px,0px);}
-  
+  0% {
+    transform: translate(0px, 0px); }
+  25% {
+    transform: translate(-2px, 0px); }
+  30% {
+    transform: translate(7px, 0px); }
+  65% {
+    transform: translate(5px, 0px); }
+  100% {
+    transform: translate(0px, 0px); } 
 }
-
 
 #title {
   font-size: 25pt;

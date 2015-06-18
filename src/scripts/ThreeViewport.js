@@ -3,16 +3,17 @@ var ThreeViewport = function (domElement) {
   
   //Prepare transferred image
   //Converted from image to base64
-  this.img = new Image();
-  this.img.src = sessionStorage.getItem("editImg");
+  var img = new Image();
+  img.src = sessionStorage.getItem("editImg");
   
   //Render scene after texture is loaded (note: async)
   //Propose fix ?
   //Bypassed CORS?
+  
   this.tex = THREE.ImageUtils.loadTexture(
-    this.img.src,
+    img.src,
     {},
-    function () {renderScene("Setup: Async texture load"); }
+    function () {ThreeViewport.prototype.renderScene("Setup: Async texture load"); }
   );
   
   //Get the shaders
@@ -26,8 +27,8 @@ var ThreeViewport = function (domElement) {
     //Dimension variables
     WINWIDTH  = window.innerWidth,
     WINHEIGHT = window.innerHeight,
-    IMGWIDTH  = this.img.width,
-    IMGHEIGHT = this.img.height,
+    IMGWIDTH  = img.width,
+    IMGHEIGHT = img.height,
     IMGASPECT = (IMGWIDTH / IMGHEIGHT),
     WINASPECT = (WINWIDTH / WINHEIGHT),
     
@@ -46,6 +47,7 @@ var ThreeViewport = function (domElement) {
     scene     = new THREE.Scene(),
     camera    = new THREE.PerspectiveCamera(FOV, WINASPECT, NEAR, FAR),
     renderer  = new THREE.WebGLRenderer({preserveDrawingBuffer: true }),
+    showOrig  = true,
     
     //Private functions
     repeatWrapping = function (tex) {
@@ -143,25 +145,9 @@ var ThreeViewport = function (domElement) {
       CWIDTH  = renderer.width;
       CHEIGHT = renderer.height;
       
-    },
+    };
       
     //TODO render the full size image on a "back canvas"
-    
-    //Update viewport
-    renderScene = function (message) {
-            
-      camera.position.z = IMGZOOM;
-      var startTime = new Date().getMilliseconds();
-      
-      //render the scene for preview (a few msec of overhead)
-      renderer.render(scene, camera);
-      
-      console.log(message + " took: "
-                  + (new Date().getMilliseconds() - startTime)
-                  + " milleseconds"
-                 );
-      
-    };
   
   /* End attributes */
   
@@ -169,15 +155,32 @@ var ThreeViewport = function (domElement) {
   renderer.setClearColor(0x223366);
   domElement.appendChild(renderer.domElement);
   
+  //Update viewport
+  ThreeViewport.prototype.renderScene = function (message) {
+
+    camera.position.z = IMGZOOM;
+    var startTime = new Date().getMilliseconds();
+
+    //render the scene for preview (a few msec of overhead)
+    renderer.render(scene, camera);
+
+    console.log(message + " took: "
+                + (new Date().getMilliseconds() - startTime)
+                + " milleseconds"
+               );
+
+  };
+  
   ThreeViewport.prototype.updateShader = function (vS, fS, unifs, uType) {
     this.vShader = vS;
     this.fShader = fS;
-    this.img.src = sessionStorage.getItem("editImg");
+    var newImg = new Image();
+    newImg.src = sessionStorage.getItem("editImg");
     
     this.tex = THREE.ImageUtils.loadTexture(
-      this.img.src,
+      newImg.src,
       {},
-      function () {renderScene("Update Shader: texture reload"); }
+      function () {ThreeViewport.prototype.renderScene("Update Shader: texture reload"); }
     );
 
     //Check if image is power of two and apply appropriate
@@ -201,7 +204,21 @@ var ThreeViewport = function (domElement) {
     var bestfit = Math.tan(camera.fov * Math.PI / 180 * 0.5) * IMGZOOM * 2;
     addImgPlane(bestfit, this.vShader, this.fShader, this.tex, unifs, uType);
     
-    renderScene("Scene refresh");
+    ThreeViewport.prototype.renderScene("Scene refresh");
+    
+  };
+  
+  ThreeViewport.prototype.swapCanvasImage = function () {
+    
+    //automatically stack last effect
+    //avoid user confusion
+    ThreeViewport.prototype.stackEffects();
+    
+    //swap image in canvas with original image
+    var tempImg = sessionStorage.getItem("editImg");
+    sessionStorage.setItem("orig", tempImg);
+    ThreeViewport.prototype.updateShader(this.vShader, this.fShader);
+    sessionStorage.setItem("editImg", sessionStorage.getItem("orig"));
     
   };
   
