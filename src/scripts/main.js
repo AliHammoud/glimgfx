@@ -9,6 +9,7 @@ var
   viewportLoadTime  = 10,
   menuSlide         = '-150px',
   sidebar_is_open   = true,
+  errbox_is_open    = false,
   // 0 = no error log
   // 1 = basic error log
   // 2 = error details
@@ -25,7 +26,7 @@ function changeShaders(vS, fS, unifs, uType) {
     viewport.updateShader(vShader, fShader, unifs, uType);
 
   } catch (err) {
-    alert("Oops, no canvas");
+    openErrorBox("You need to upload an image first!", 3000);
     
     if (debugMode > 0) {
       console.log("Error1: User tried an effect with no canvas");
@@ -54,6 +55,29 @@ function openSidebar() {
   $("#menu").toggleClass("closed");
   $("#menu").toggleClass("open");
   
+}
+
+//Triggers the error box with the message
+//After delay, close the error box
+function openErrorBox(message, delay) { 
+  if (!errbox_is_open) {
+    errbox_is_open = true;
+    $("#errorBox").html(message);
+    $("#errorBox").animate({top: '40px'});
+    setTimeout(function(){closeErrorBox()},delay)
+  }
+
+}
+
+//Don't allow multiple error messages in same box
+//Wait until first error is cleared, before raising a new one
+function closeErrorBox() {
+  $("#errorBox").animate({top: '0px'},
+                         {complete: function () {
+                           errbox_is_open =! errbox_is_open;
+                          }
+                         }
+                        );
 }
 
 //Creates the canvas
@@ -133,7 +157,7 @@ function stackEffect() {
     viewport.stackEffects();
     
   } catch (err) {
-    alert("Oops, no canvas");
+    openErrorBox("Oops, no canvas, can't stack effects", 3000);
 
     if (debugMode > 0) {
       console.log("Error2: User tried to stack effects with no canvas");
@@ -183,7 +207,15 @@ function initDragDropEvents() {
 
 function createDragDropRegion() {
   $("#imgCanvas").remove();
-
+  
+  if ($("#originalNote").val() !== undefined) {
+    removeOriginalImgNote();
+  }
+  
+  if (showingOriginal === true) {
+    showingOriginal = false;
+  }
+  
   sessionStorage.clear();
 
   var 
@@ -198,6 +230,22 @@ function createDragDropRegion() {
   $("#dragDropOptions").append(upld);
 
   initDragDropEvents();
+}
+
+function restoreStartMenu() {
+  
+}
+
+function createOriginalImgNote() {
+  var frame = '<div id="originalNote">Original Image</div>';
+  $("#imageSection").append(frame);
+    
+}
+
+function removeOriginalImgNote() {
+
+  $("#originalNote").remove();
+
 }
 
 /* on document ready */
@@ -253,20 +301,24 @@ $(document).ready(function () {
     changeShaders("vertexShader", "fragmentShader_0");
     
     try {
-      if (!showingOriginal) {
-        $("#btn_org").find("i").html("check_box");
-        viewport.swapOriginalImage(img);
+      if ($("#imgCanvas").val() !== undefined){
+        if (!showingOriginal) {
+          $("#btn_org").find("i").html("check_box");
+          createOriginalImgNote();
+          viewport.swapOriginalImage(img);
 
-      } else if (showingOriginal) {
-        $("#btn_org").find("i").html("check_box_outline_blank");
-        viewport.restoreProgress(img);
-      }
-      
-      showingOriginal = !showingOriginal;
+        } else if (showingOriginal) {
+          $("#btn_org").find("i").html("check_box_outline_blank");
+          removeOriginalImgNote();
+          viewport.restoreProgress(img);
+        }
+
+        showingOriginal = !showingOriginal;
+      } else throw ("no canvas");
       
     } catch(err) {
       $("#btn_org").find("i").html("check_box_outline_blank");
-      alert("You haven't even loaded an image yet!");
+      openErrorBox("You haven't even loaded an image yet!", 3000);
       if (debugMode > 0) {
         console.log("Error3: User tried to show original image with no canvas");
         if (debugMode > 1) {
@@ -285,7 +337,6 @@ $(document).ready(function () {
   //Delete existing canvas, clear session storage
   $("#btn_reset").mouseup(function () {
     
-    
     try {
       if ($("#imgCanvas").val() === undefined) {
         throw ("No canvas");
@@ -294,7 +345,7 @@ $(document).ready(function () {
       }
       
     } catch(err) {
-      alert("You haven't even started yet!");
+      openErrorBox("You haven't even started yet!", 3000);
       if (debugMode > 0) {
         console.log("Error4: User tried to use a new image with no canvas");
         if (debugMode > 1) {

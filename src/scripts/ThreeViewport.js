@@ -213,12 +213,7 @@ var ThreeViewport = function (domElement) {
   };
   
   ThreeViewport.prototype.swapOriginalImage = function (orgimg) {
-    
-    //automatically stack last effect
-    //avoid user confusion
-    //ThreeViewport.prototype.stackEffects();
-    
-    //Issue with string immutability.
+    //Issue with string immutability, hence the argument.
     //swap image in canvas with original image
     sessionStorage.setItem("orig", sessionStorage.getItem("editImg"));
     sessionStorage.setItem("editImg", orgimg.src);
@@ -227,6 +222,8 @@ var ThreeViewport = function (domElement) {
   };
   
   ThreeViewport.prototype.restoreProgress = function (orgimg) {
+    //Issue with string immutability, hence the argument.
+    //swap original image in canvas with stored progress image
     sessionStorage.setItem("editImg", sessionStorage.getItem("orig"));
     sessionStorage.setItem("orig", orgimg.src);
     ThreeViewport.prototype.updateShader(this.vShader, this.fShader);

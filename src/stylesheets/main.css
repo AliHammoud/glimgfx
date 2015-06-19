@@ -193,6 +193,41 @@
   width: 100%;
   height: 100%; }
 
+#imageSection #originalNote {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 10pt;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5pt 10pt 5pt 10pt;
+  text-decoration: none; }
+
+#imageSection #errorBox {
+  position: absolute;
+  margin-top: -44px;
+  margin-left: 15%;
+  width: 70%;
+  -webkit-border-bottom-left-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-bottom-left-radius: 20px;
+  -moz-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  font-family: Arial;
+  color: #d90000;
+  font-size: 10pt;
+  background: #FF8080;
+  padding: 5pt 10pt 5pt 10pt;
+  border: solid #d90000 4px;
+  text-decoration: none;
+  text-align: center;
+  box-sizing: border-box; }
+
 #imageSection #img_container {
   position: relative;
   width: 0px;
