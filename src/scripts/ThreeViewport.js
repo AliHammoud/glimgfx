@@ -3,8 +3,12 @@ var ThreeViewport = function (domElement) {
   
   //Prepare transferred image
   //Converted from image to base64
-  var img = new Image();
+  var 
+    img = new Image(),
+    originalImg = new Image();
+  
   img.src = sessionStorage.getItem("editImg");
+  originalImg.src = sessionStorage.getItem("orig");
   
   //Render scene after texture is loaded (note: async)
   //Propose fix ?
@@ -208,19 +212,26 @@ var ThreeViewport = function (domElement) {
     
   };
   
-  ThreeViewport.prototype.swapCanvasImage = function () {
+  ThreeViewport.prototype.swapOriginalImage = function (orgimg) {
     
     //automatically stack last effect
     //avoid user confusion
-    ThreeViewport.prototype.stackEffects();
+    //ThreeViewport.prototype.stackEffects();
     
+    //Issue with string immutability.
     //swap image in canvas with original image
-    var tempImg = sessionStorage.getItem("editImg");
-    sessionStorage.setItem("orig", tempImg);
+    sessionStorage.setItem("orig", sessionStorage.getItem("editImg"));
+    sessionStorage.setItem("editImg", orgimg.src);
     ThreeViewport.prototype.updateShader(this.vShader, this.fShader);
-    sessionStorage.setItem("editImg", sessionStorage.getItem("orig"));
     
   };
+  
+  ThreeViewport.prototype.restoreProgress = function (orgimg) {
+    sessionStorage.setItem("editImg", sessionStorage.getItem("orig"));
+    sessionStorage.setItem("orig", orgimg.src);
+    ThreeViewport.prototype.updateShader(this.vShader, this.fShader);
+    
+  }
   
   ThreeViewport.prototype.resizeViewport = function () {
     WINWIDTH  = window.innerWidth;

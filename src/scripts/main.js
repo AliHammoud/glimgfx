@@ -9,7 +9,10 @@ var
   viewportLoadTime  = 10,
   menuSlide         = '-150px',
   sidebar_is_open   = true,
-  debugMode         = true;
+  // 0 = no error log
+  // 1 = basic error log
+  // 2 = error details
+  debugMode         = 1;
 
 /* utilities */
 function changeShaders(vS, fS, unifs, uType) {
@@ -24,10 +27,13 @@ function changeShaders(vS, fS, unifs, uType) {
   } catch (err) {
     alert("Oops, no canvas");
     
-    if (debugMode) {
+    if (debugMode > 0) {
       console.log("Error1: User tried an effect with no canvas");
-      console.log(err);
-      console.log("!end of error");
+      if (debugMode > 1) {
+        console.log("Error details: " + err);
+        console.log("!end of error");
+      }
+      
     }
 
   }
@@ -129,10 +135,13 @@ function stackEffect() {
   } catch (err) {
     alert("Oops, no canvas");
 
-    if (debugMode) {
+    if (debugMode > 0) {
       console.log("Error2: User tried to stack effects with no canvas");
-      console.log(err);
-      console.log("!end of error");
+      if (debugMode > 1) {
+        console.log("Error details: " + err);
+        console.log("!end of error");
+      }
+      
     }
     
   }
@@ -240,39 +249,66 @@ $(document).ready(function () {
   
   //Show original
   $("#btn_org").mouseup(function () {
-    if ($("#imgCanvas").val() !== undefined) {
+    
+    changeShaders("vertexShader", "fragmentShader_0");
+    
+    try {
       if (!showingOriginal) {
         $("#btn_org").find("i").html("check_box");
-        
+        viewport.swapOriginalImage(img);
+
       } else if (showingOriginal) {
         $("#btn_org").find("i").html("check_box_outline_blank");
-
+        viewport.restoreProgress(img);
       }
       
-      viewport.swapCanvasImage();
       showingOriginal = !showingOriginal;
       
-    } else {
+    } catch(err) {
+      $("#btn_org").find("i").html("check_box_outline_blank");
       alert("You haven't even loaded an image yet!");
+      if (debugMode > 0) {
+        console.log("Error3: User tried to show original image with no canvas");
+        if (debugMode > 1) {
+          console.log("Error details: " + err);
+          console.log("!end of error");
+        }
+        
+      }
       
     }
     
   });
   
   //Use different image
+  //Build a new dragDropRegion
   //Delete existing canvas, clear session storage
-  //Recreate initial DOM elements
   $("#btn_reset").mouseup(function () {
-    if ($("#imgCanvas").val() !== undefined) {
-      createDragDropRegion();
+    
+    
+    try {
+      if ($("#imgCanvas").val() === undefined) {
+        throw ("No canvas");
+      } else {
+        createDragDropRegion();
+      }
       
-    } else {
-      alert ("You didn't even start yet!");
+    } catch(err) {
+      alert("You haven't even started yet!");
+      if (debugMode > 0) {
+        console.log("Error4: User tried to use a new image with no canvas");
+        if (debugMode > 1) {
+          console.log("Error details: " + err);
+          console.log("!end of error");
+          
+        }
+
+      }
     }
     
   });
   
-  //Shader 0: No effect
+  //Shader 0: Undo Last effect
   $("#btn_e0").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_0");
     
