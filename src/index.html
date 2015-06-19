@@ -490,6 +490,37 @@
       gl_FragColor = vec4(fClr, alphaVal);
 
     }
+  
+  </script>
+  
+  <script name="cosine_test"
+          id="fragmentShader_14"
+          type="x-shader/x-fragment" >
+          
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imgWidth;
+    uniform float imgHeight;
+    uniform float userDef;
+    float noiseFunction(in vec2 uv){
+    
+      //return the fractional part of the multiplication of a randomly
+      //generated number (by hand)
+      
+      return fract(cos(dot(uv.xy ,vec2(15.3512,68.9512))) * 52142.3213);
+      
+    }
+
+
+    void main(){
+      //att is for attenuation, user sets this as a percentage parameter
+      float a = (1.0/userDef);
+      float n = noiseFunction(vec2(vUv.x, vUv.y));
+      vec4 img = texture2D(editImg, vUv);
+      gl_FragColor = vec4(img.r + n/a, img.g + n/a, img.b + n/a, 1.0);
+
+    }
+  
   </script>
   
   <!-- End of Shaders -->
@@ -651,6 +682,19 @@
             <i id="btnIcon" class="material-icons md-48">tune</i>
           </div>
           
+        </div>
+        
+        <div class="expander" id="rollout5" href="#">Noise</div>
+        <div class="content5">
+          
+          <p>Noise intensity:</p>
+          <input class="numeric" id="in_f1" type="text" value="0%">
+          <div id="slider2"></div>
+          
+          <div class="btn" id="btn_e14">Add Cosine Noise
+            <i id="btnIcon" class="material-icons md-48">grain</i>
+          </div>
+
         </div>
         
         <div class="btn" id="download">

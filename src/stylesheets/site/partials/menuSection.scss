@@ -192,6 +192,7 @@ $sliderBorder: 2px;
 }
 
 #download {
+  margin-top: $itemMargin*2 !important;
   background: none !important;
 }
 
@@ -219,6 +220,12 @@ $sliderBorder: 2px;
 }
 
 #slider {
+  margin-top: $itemMargin*2;
+  margin-left: $itemMargin*2;
+  margin-bottom: $itemMargin*2;
+}
+
+#slider2 {
   margin-top: $itemMargin*2;
   margin-left: $itemMargin*2;
   margin-bottom: $itemMargin*2;

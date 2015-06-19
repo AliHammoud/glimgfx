@@ -142,6 +142,7 @@
   margin: 10px; }
 
 #download {
+  margin-top: 20px !important;
   background: none !important; }
 
 #menuContainer a:hover {
@@ -164,6 +165,11 @@
   width: 40px; }
 
 #slider {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-bottom: 20px; }
+
+#slider2 {
   margin-top: 20px;
   margin-left: 20px;
   margin-bottom: 20px; }

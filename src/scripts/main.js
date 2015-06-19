@@ -19,7 +19,6 @@ var
 
 /* utilities */
 function changeShaders(vS, fS, unifs, uType) {
-  
   try {
     var
       vShader = document.getElementById(vS).innerHTML,
@@ -201,9 +200,11 @@ function readImageFile(file) {
       
     };
     reader.readAsDataURL(file);
+    openSuccessBox("Successfully loaded image!", 1500);
     
   } else {
-    imageArea.innerHTML = "File format not supported!";
+    //imageArea.innerHTML = "File format not supported!";
+    openErrorBox("file format not supported!", 3000);
     
   }
 }
@@ -341,6 +342,14 @@ $(document).ready(function () {
     max: 100,
     slide: function (event, ui) {
       $("#in_f0").val(ui.value + "%");
+    }
+  });
+  
+  $("#slider2").slider({
+    min: 0,
+    max: 100,
+    slide: function (event, ui) {
+      $("#in_f1").val(ui.value + "%");
     }
   });
   
@@ -556,10 +565,16 @@ $(document).ready(function () {
   
   //Shader 11: Chroma key removal
   $("#btn_e11").mouseup(function () {
-    
     var unif = $("#in_f0").val().replace("%", "") / 100;
     changeShaders("vertexShader", "fragmentShader_11", unif, "f");
     
+  });
+  
+  //Shader 14: Experimental Cosine Offset
+  $("#btn_e14").mouseup(function () {
+    var unif = $("#in_f1").val().replace("%", "") / 100;
+    changeShaders("vertexShader", "fragmentShader_14", unif, "f");
+
   });
   
   /* End of effects change */
