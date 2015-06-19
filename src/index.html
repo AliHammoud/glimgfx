@@ -109,6 +109,45 @@
 
   </script>
   
+  <script name="invert_red"
+          id="fragmentShader_12"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imageWidth;
+    uniform float imageHeight;
+
+    void main(){
+      vec4 myTexture = texture2D(editImg, vUv);
+
+      float rInv = 1.0 - myTexture.r;
+
+      gl_FragColor = vec4 (rInv, myTexture.g, myTexture.b, 1.0);
+
+    }
+  </script>
+  
+  <script name="invert_green"
+          id="fragmentShader_13"
+          type="x-shader/x-fragment" >
+
+    varying vec2 vUv;
+    uniform sampler2D editImg;
+    uniform float imageWidth;
+    uniform float imageHeight;
+
+    void main(){
+      vec4 myTexture = texture2D(editImg, vUv);
+
+      float gInv = 1.0 - myTexture.g;
+
+      gl_FragColor = vec4 (myTexture.r, gInv, myTexture.g, 1.0);
+
+    }
+  </script>
+    
+  
   <script name="invert_blue"
           id="fragmentShader_4"
           type="x-shader/x-fragment" >
@@ -363,7 +402,7 @@
 
   </script>
   
-  <script name="remove_removal"
+  <script name="chroma_removal"
           id="fragmentShader_11"
           type="x-shader/x-fragment" >
           
@@ -439,7 +478,7 @@
       alpha = 0.0, and remove the background for demo.
       */
       
-      if ((img.g - (img.r + img.b)) >= userDef){
+      if ((img.g - (img.r + img.b)) >= 1.0 - userDef){
         alphaVal = 0.0;
         fClr = vec3 (1.0, 1.0, 1.0);
         
@@ -459,7 +498,9 @@
 <body>
   <div id="container">
     <div id="imageSection">
-      <div id="errorBox">Oops! There's no canvas, can't update shaders</div>
+      <div id="version">version 0.1<br><span>copyright</span></div>
+      <div id="errorBox">Error!</div>
+      <div id="successBox">Success!</div>
       <div id="img_container">
         <div id="dragDropRegion">
           <img src="img/dragdrop.png">
@@ -518,6 +559,14 @@
           </div>
           
           <div class="btn" id="btn_e3">Red is Blue
+            <i id="btnIcon" class="material-icons md-48">shuffle</i>
+          </div>
+          
+          <div class="btn" id="btn_e12">Invert Red
+            <i id="btnIcon" class="material-icons md-48">shuffle</i>
+          </div>
+          
+          <div class="btn" id="btn_e13">Invert Green
             <i id="btnIcon" class="material-icons md-48">shuffle</i>
           </div>
           

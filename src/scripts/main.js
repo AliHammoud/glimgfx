@@ -2,14 +2,16 @@
 
 /* global Variables*/
 var
+  VERSION             = '0.1.0',
   img,
   viewport,
   theCanvas,
-  showingOriginal   = false,
-  viewportLoadTime  = 10,
-  menuSlide         = '-150px',
-  sidebar_is_open   = true,
-  errbox_is_open    = false,
+  menuSlide           = '-150px',
+  showingOriginal     = false,
+  viewportLoadTime    = 10,
+  sidebar_is_open     = true,
+  errbox_is_open      = false,
+  successbox_is_open  = false,
   // 0 = no error log
   // 1 = basic error log
   // 2 = error details
@@ -21,12 +23,59 @@ function changeShaders(vS, fS, unifs, uType) {
   try {
     var
       vShader = document.getElementById(vS).innerHTML,
-      fShader = document.getElementById(fS).innerHTML;
+      fShader = document.getElementById(fS).innerHTML,
+      //Make the experience a bit friendlier and more interactive
+      quotes  = ["Wow!",
+                 "Nice touch!",
+                 "Shmectacular!",
+                 "Effect successfully applied!",
+                 "I like this one!",
+                 "Love it!",
+                 "Cool effect!",
+                 "*gasps*",
+                 "Well done!",
+                 "Lovely!",
+                 "Aha! Excellent!",
+                 "Delightful!",
+                 "Success!",
+                 "Fantastic!",
+                 "I wonder how this will end",
+                 "Go on... Go on",
+                 "How about something different?",
+                 "I'm going to have a cup of tea",
+                 "A spoon of sugar perhaps?",
+                 "How about we stack this one?",
+                 "Do you like tennis?",
+                 "Who's your creator? (It's a turing test)",
+                 "I'm from another planet",
+                 "What are you looking at?",
+                 "Keep adding",
+                 "We don't have all day...",
+                 "Looks pretty good!",
+                 "Yes, yes, good choice!",
+                 "99 bottles of rhum in the boat...",
+                 "Does a set of all sets contain itself?",
+                 "No! I won't make you a sandwich.",
+                 "3 x 3 = ?",
+                 "Nice!",
+                 "Applied successfully!"
+                ],
+      msgID = Math.floor(Math.random()*(quotes.length)),
+      msg;
 
     viewport.updateShader(vShader, fShader, unifs, uType);
+    msg = quotes[msgID];
+    
+    if (fS === "fragmentShader_0"){
+      openSuccessBox("Successfully undone!", 1000);
+      
+    } else {
+      openSuccessBox(msg, 1000);
+      
+    }
 
   } catch (err) {
-    openErrorBox("You need to upload an image first!", 3000);
+    openErrorBox("You need to upload an image first!", 2000);
     
     if (debugMode > 0) {
       console.log("Error1: User tried an effect with no canvas");
@@ -76,6 +125,28 @@ function closeErrorBox() {
                          {complete: function () {
                            errbox_is_open =! errbox_is_open;
                           }
+                         }
+                        );
+}
+
+//Success boxes appear exactly like error boxes
+function openSuccessBox(message, delay) { 
+  if (!successbox_is_open) {
+    successbox_is_open = true;
+    $("#successBox").html(message);
+    $("#successBox").animate({top: '40px'});
+    setTimeout(function(){closeSuccessBox()},delay)
+  }
+
+}
+
+//Don't allow multiple error messages in same box
+//Wait until first error is cleared, before raising a new one
+function closeSuccessBox() {
+  $("#successBox").animate({top: '0px'},
+                         {complete: function () {
+                           successbox_is_open =! successbox_is_open;
+                         }
                          }
                         );
 }
@@ -154,10 +225,14 @@ function uploadImg() {
 
 function stackEffect() {
   try {
-    viewport.stackEffects();
+    if ($("#imgCanvas").val() !== undefined) {
+      openSuccessBox("Effect stacked!", 1000);
+      viewport.stackEffects();
+      
+    } else throw ("no canvas");
     
   } catch (err) {
-    openErrorBox("Oops, no canvas, can't stack effects", 3000);
+    openErrorBox("Oops! no canvas, can't stack effects", 2000);
 
     if (debugMode > 0) {
       console.log("Error2: User tried to stack effects with no canvas");
@@ -237,7 +312,8 @@ function restoreStartMenu() {
 }
 
 function createOriginalImgNote() {
-  var frame = '<div id="originalNote">Original Image</div>';
+  var frame = '<div id="originalNote">Original Image<br>\
+                <span>Editing this might reset your progress</span></div>';
   $("#imageSection").append(frame);
     
 }
@@ -250,8 +326,16 @@ function removeOriginalImgNote() {
 
 /* on document ready */
 $(document).ready(function () {
+  /* information */
+  var today = new Date();
+  $("#version").html(
+    "version " + VERSION +
+    "<br><span>Copyright &copy; Ali Hammoud. All rights reserved. " + 
+    today.getFullYear() + "</span>"
+  );
   
-  //jQueryUI
+  
+  /* jQueryUI */
   $("#slider").slider({
     min: 0,
     max: 100,
@@ -269,7 +353,7 @@ $(document).ready(function () {
     
   });
   
-  //end of jQueryUI
+  /* end of jQueryUI */
   
   /* side menu */
   $("#menu").mouseup(function () {
@@ -286,8 +370,23 @@ $(document).ready(function () {
   
   /* download image */
   $("#link_download").mousedown(function () {
-    this.href = document.getElementById("imgCanvas").toDataURL("image/png");
-    this.download = "glimgfx_img.png";
+    try {
+      this.href = document.getElementById("imgCanvas").toDataURL("image/png");
+      this.download = "glimgfx_img.png";
+      
+    } catch(err) {
+      openErrorBox("Nothing to save!", 2000);
+      if (debugMode > 0) {
+        console.log("Error5: User tried to save nothing");
+        if (debugMode > 1) {
+          console.log("Error details: " + err);
+          console.log("!end of error");
+        }
+
+      }
+      
+    }
+    
   });
   
   /* initialise drag and drop image */
@@ -297,20 +396,20 @@ $(document).ready(function () {
   
   //Show original
   $("#btn_org").mouseup(function () {
-    
-    changeShaders("vertexShader", "fragmentShader_0");
-    
     try {
       if ($("#imgCanvas").val() !== undefined){
         if (!showingOriginal) {
+          openSuccessBox("Showing original image!", 1000);
           $("#btn_org").find("i").html("check_box");
           createOriginalImgNote();
           viewport.swapOriginalImage(img);
 
         } else if (showingOriginal) {
+          openSuccessBox("Back to work!", 1000);
           $("#btn_org").find("i").html("check_box_outline_blank");
           removeOriginalImgNote();
           viewport.restoreProgress(img);
+          
         }
 
         showingOriginal = !showingOriginal;
@@ -318,7 +417,7 @@ $(document).ready(function () {
       
     } catch(err) {
       $("#btn_org").find("i").html("check_box_outline_blank");
-      openErrorBox("You haven't even loaded an image yet!", 3000);
+      openErrorBox("You haven't even loaded an image yet!", 2000);
       if (debugMode > 0) {
         console.log("Error3: User tried to show original image with no canvas");
         if (debugMode > 1) {
@@ -329,6 +428,8 @@ $(document).ready(function () {
       }
       
     }
+    
+    changeShaders("vertexShader", "fragmentShader_0");
     
   });
   
@@ -341,11 +442,12 @@ $(document).ready(function () {
       if ($("#imgCanvas").val() === undefined) {
         throw ("No canvas");
       } else {
+        openSuccessBox("Successfully removed the image!", 1000);
         createDragDropRegion();
       }
       
     } catch(err) {
-      openErrorBox("You haven't even started yet!", 3000);
+      openErrorBox("You haven't even started yet!", 2000);
       if (debugMode > 0) {
         console.log("Error4: User tried to use a new image with no canvas");
         if (debugMode > 1) {
@@ -387,6 +489,18 @@ $(document).ready(function () {
   $("#btn_e3").mouseup(function () {
     changeShaders("vertexShader", "fragmentShader_3");
     
+  });
+  
+  //Shader 12: Invert red
+  $("#btn_e12").mouseup(function () {
+    changeShaders("vertexShader", "fragmentShader_12");
+
+  });
+  
+  //Shader 13: Invert green
+  $("#btn_e13").mouseup(function () {
+    changeShaders("vertexShader", "fragmentShader_13");
+
   });
   
   //Shader 4: Invert blue
@@ -467,5 +581,7 @@ $(document).ready(function () {
     }
     
   });
+  
+  openSuccessBox("Application has loaded !", 2000);
   
 });

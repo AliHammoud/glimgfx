@@ -1,21 +1,21 @@
 /*
 Error: Undefined variable: "$fontColor".
-        on line 49 of ./site/partials/imageSection.scss
+        on line 61 of ./site/partials/imageSection.scss
 
-44:   
-45:   -webkit-border-radius: 60;
-46:   -moz-border-radius: 60;
-47:   border-radius: 60px;
-48:   font-family: Arial;
-49:   color: $fontColor;
-50:   font-size: $fontSize;
-51:   background: rgba(0.0, 0.0, 0.0, 0.5);
-52:   padding: 5pt 10pt 5pt 10pt;
-53:   //border: solid $fontColor 2px;
-54:   text-decoration: none;
+56:   
+57:   -webkit-border-radius: 60;
+58:   -moz-border-radius: 60;
+59:   border-radius: 60px;
+60:   font-family: Arial;
+61:   color: $fontColor;
+62:   font-size: $fontSize;
+63:   background: rgba(0.0, 0.0, 0.0, 0.5);
+64:   padding: 5pt 10pt 5pt 10pt;
+65:   //border: solid $fontColor 2px;
+66:   text-decoration: none;
 
 Backtrace:
-./site/partials/imageSection.scss:49
+./site/partials/imageSection.scss:61
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/script/tree/variable.rb:49:in `_perform'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/script/tree/node.rb:50:in `perform'
 /Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:394:in `visit_prop'
@@ -67,4 +67,4 @@ Backtrace:
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$fontColor\".\A         on line 49 of ./site/partials/imageSection.scss\A \A 44:   \A 45:   -webkit-border-radius: 60;\A 46:   -moz-border-radius: 60;\A 47:   border-radius: 60px;\A 48:   font-family: Arial;\A 49:   color: $fontColor;\A 50:   font-size: $fontSize;\A 51:   background: rgba(0.0, 0.0, 0.0, 0.5);\A 52:   padding: 5pt 10pt 5pt 10pt;\A 53:   //border: solid $fontColor 2px;\A 54:   text-decoration: none;"; }
+  content: "Error: Undefined variable: \"$fontColor\".\A         on line 61 of ./site/partials/imageSection.scss\A \A 56:   \A 57:   -webkit-border-radius: 60;\A 58:   -moz-border-radius: 60;\A 59:   border-radius: 60px;\A 60:   font-family: Arial;\A 61:   color: $fontColor;\A 62:   font-size: $fontSize;\A 63:   background: rgba(0.0, 0.0, 0.0, 0.5);\A 64:   padding: 5pt 10pt 5pt 10pt;\A 65:   //border: solid $fontColor 2px;\A 66:   text-decoration: none;"; }

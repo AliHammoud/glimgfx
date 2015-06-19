@@ -19,7 +19,17 @@ $errorBorderWidth: 4px;
   100%  {transform: scale(1,1);}
 
 }
-
+#version {
+  font-family: "americantypewriter", monospace;
+  font-size: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  text-align: right;
+  
+  z-index: 4;
+  
+}
 #imageSection{
   position:absolute;
   width: $imageWidth;
@@ -34,6 +44,8 @@ $errorBorderWidth: 4px;
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
+  
+  z-index: 0;
   
 }
 
@@ -53,6 +65,12 @@ $errorBorderWidth: 4px;
   //border: solid $fontColor 2px;
   text-decoration: none;
   
+  z-index: 3;
+  
+}
+
+#originalNote span {
+  font-size: 6pt;
 }
 
 #imageSection #errorBox {
@@ -85,6 +103,40 @@ $errorBorderWidth: 4px;
   
   box-sizing: border-box;
   
+  z-index: 2;
+  
+}
+
+#imageSection #successBox {
+  position: absolute;
+
+  margin-top: -$errorBorderWidth - 40px;
+  margin-left: 15%;
+  width: 70%;
+
+  -webkit-border-bottom-left-radius: $errorBorderRadius;
+  -webkit-border-bottom-right-radius: $errorBorderRadius;
+
+  -moz-border-bottom-left-radius: $errorBorderRadius;
+  -moz-border-bottom-right-radius: $errorBorderRadius;
+
+  border-bottom-left-radius: $errorBorderRadius;
+  border-bottom-right-radius: $errorBorderRadius;
+
+  font-family: Arial;
+  color: #00d900;
+  font-size: $fontSize;
+
+  background: #80FF80;
+  padding: 5pt 10pt 5pt 10pt;
+  border: solid #00d900 $errorBorderWidth;
+
+  text-decoration: none;
+  text-align: center;
+
+  box-sizing: border-box;
+  
+  z-index: 1;
 }
 
 #imageSection #img_container{

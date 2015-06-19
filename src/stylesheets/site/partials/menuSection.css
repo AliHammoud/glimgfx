@@ -141,9 +141,11 @@
   display: flex;
   margin: 10px; }
 
+#download {
+  background: none !important; }
+
 #menuContainer a:hover {
-  background-color: yellow;
-  color: black;
+  color: yellow;
   cursor: pointer; }
 
 #menuContainer p {

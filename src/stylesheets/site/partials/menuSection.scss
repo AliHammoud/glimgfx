@@ -124,7 +124,7 @@ $sliderBorder: 2px;
   position: absolute;
   opacity: $menuOpacity;
   overflow-y:auto;
-
+  
 }
 
 #menu {
@@ -191,9 +191,12 @@ $sliderBorder: 2px;
   margin: $itemMargin;
 }
 
+#download {
+  background: none !important;
+}
+
 #menuContainer a:hover {
-  background-color: yellow;
-  color: black;
+  color: yellow;
   cursor: pointer;
 }
 
