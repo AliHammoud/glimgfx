@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: main.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: main.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileOverview
  * This is the main JavaScript file which is loaded with
  * the application. Its main function is to handle events.
@@ -17,21 +45,21 @@ var
   /** 
    * @global
    * @type String
-   * @description <code>VERSION</code> specifies the current version of the app.
+   * @description &lt;code>VERSION&lt;/code> specifies the current version of the app.
    */
   VERSION             = '0.1.0',
     
   /** 
    * @global 
    * @type image
-   * @description <code>img</code> is the image uploaded by the user into the app.
+   * @description &lt;code>img&lt;/code> is the image uploaded by the user into the app.
    */
   img,
     
   /** 
    * @global 
    * @type ThreeViewport
-   * @description <code>viewport</code> is an instance of ThreeVeiwport.js which
+   * @description &lt;code>viewport&lt;/code> is an instance of ThreeVeiwport.js which
         is created after an image is loaded into the application.
    */
   viewport,
@@ -39,17 +67,17 @@ var
   /** 
    * @global
    * @type canvasElement
-   * @description <code>theCanvas</code> is the HTML <code>canvas</code> that is
-        created by ThreeViwport.js after an image is loaded.<br>
+   * @description &lt;code>theCanvas&lt;/code> is the HTML &lt;code>canvas&lt;/code> that is
+        created by ThreeViwport.js after an image is loaded.&lt;br>
         The canvas holds the WebGL rendering context produced by the three.js
-        scene inside <code>viewport</code>.
+        scene inside &lt;code>viewport&lt;/code>.
    */
   theCanvas,
     
   /** 
    * @global 
    * @type String
-   * @description <code>menuSlide</code> specifies the amount by which the left
+   * @description &lt;code>menuSlide&lt;/code> specifies the amount by which the left
         sidebar moves in pixels.
    */
   menuSlide           = '-150px',
@@ -57,7 +85,7 @@ var
   /** 
    * @global
    * @type Boolean
-   * @description <code>showingOriginal</code> indicates whether the original
+   * @description &lt;code>showingOriginal&lt;/code> indicates whether the original
         image is loaded in the canvas for comparison.
    */
   showingOriginal     = false,
@@ -65,7 +93,7 @@ var
   /** 
    * @global
    * @type int
-   * @description <code>viewportLoadTime</code> is the delay required for the
+   * @description &lt;code>viewportLoadTime&lt;/code> is the delay required for the
         browser to set the loaded image into sessionStorage (varies per device
         more testing required, setting this too high causes an unpleasant glitch)
    */
@@ -74,7 +102,7 @@ var
   /** 
    * @global
    * @type Boolean
-   * @description <code>sidebar_is_open</code> specifies whether the
+   * @description &lt;code>sidebar_is_open&lt;/code> specifies whether the
         sidebar is opened or closed.
    */
   sidebar_is_open     = true,
@@ -82,7 +110,7 @@ var
   /** 
    * @global 
    * @type Boolean
-   * @description <code>errbox_is_open</code> specifies whether the
+   * @description &lt;code>errbox_is_open&lt;/code> specifies whether the
         error box is opened or closed.
    */
   errbox_is_open      = false,
@@ -90,7 +118,7 @@ var
   /** 
    * @global 
    * @type Boolean
-   * @description <code>successbox_is_open</code> specifies whether the
+   * @description &lt;code>successbox_is_open&lt;/code> specifies whether the
         success box is opened or closed.
    */
   successbox_is_open  = false,
@@ -98,12 +126,12 @@ var
   /** 
    * @global 
    * @type int
-   * @description <code>debugMode</code> specifies the detials of logs written by
-        the application.<br><br>
-        <h4>Values:</h4>
-        0 :Output no error logs<br>
-        1 :Output brief error logs (default)<br>
-        2 :Output detailed error logs<br>
+   * @description &lt;code>debugMode&lt;/code> specifies the detials of logs written by
+        the application.&lt;br>&lt;br>
+        &lt;h4>Values:&lt;/h4>
+        0 :Output no error logs&lt;br>
+        1 :Output brief error logs (default)&lt;br>
+        2 :Output detailed error logs&lt;br>
    */
   debugMode         = 1;
 
@@ -477,10 +505,10 @@ function createDragDropRegion() {
 
   // HTML elements that make up the upload mechanism
   var 
-    ddr   = '<div id="dragDropRegion"></div>',
-    dimg  = '<img src="img/dragdrop.png">',
-    ddo   = '<div id="dragDropOptions">drag and drop an image here<br></div>',
-    upld  = '<input id="browseImg" type="file" onchange="uploadImg()">';
+    ddr   = '&lt;div id="dragDropRegion">&lt;/div>',
+    dimg  = '&lt;img src="img/dragdrop.png">',
+    ddo   = '&lt;div id="dragDropOptions">drag and drop an image here&lt;br>&lt;/div>',
+    upld  = '&lt;input id="browseImg" type="file" onchange="uploadImg()">';
 
   $("#img_container").append(ddr);
   $("#dragDropRegion").append(dimg);
@@ -495,8 +523,8 @@ function createDragDropRegion() {
  * @param {void} no parameters
  */
 function createOriginalImgNote() {
-  var frame = '<div id="originalNote">Original Image<br>\
-                <span>Editing this might reset your progress</span></div>';
+  var frame = '&lt;div id="originalNote">Original Image&lt;br>\
+                &lt;span>Editing this might reset your progress&lt;/span>&lt;/div>';
   $("#imageSection").append(frame);
     
 }
@@ -519,8 +547,8 @@ $(document).ready(function () {
   var today = new Date();
   $("#version").html(
     "version " + VERSION +
-    "<br><span>Copyright &copy; Ali Hammoud. All rights reserved. " + 
-    today.getFullYear() + "</span>"
+    "&lt;br>&lt;span>Copyright &amp;copy; Ali Hammoud. All rights reserved. " + 
+    today.getFullYear() + "&lt;/span>"
   );
   
   
@@ -787,4 +815,26 @@ $(document).ready(function () {
   
   openSuccessBox("Application has loaded !", 2000);
   
-});
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ThreeViewport.html">ThreeViewport</a></li></ul><h3>Global</h3><ul><li><a href="global.html#changeShaders">changeShaders</a></li><li><a href="global.html#closeErrorBox">closeErrorBox</a></li><li><a href="global.html#closeSidebar">closeSidebar</a></li><li><a href="global.html#closeSuccessBox">closeSuccessBox</a></li><li><a href="global.html#createCanvas">createCanvas</a></li><li><a href="global.html#createDragDropRegion">createDragDropRegion</a></li><li><a href="global.html#createOriginalImgNote">createOriginalImgNote</a></li><li><a href="global.html#debugMode">debugMode</a></li><li><a href="global.html#errbox_is_open">errbox_is_open</a></li><li><a href="global.html#img">img</a></li><li><a href="global.html#initDragDropEvents">initDragDropEvents</a></li><li><a href="global.html#menuSlide">menuSlide</a></li><li><a href="global.html#openErrorBox">openErrorBox</a></li><li><a href="global.html#openSidebar">openSidebar</a></li><li><a href="global.html#openSuccessBox">openSuccessBox</a></li><li><a href="global.html#readImageFile">readImageFile</a></li><li><a href="global.html#removeOriginalImgNote">removeOriginalImgNote</a></li><li><a href="global.html#showingOriginal">showingOriginal</a></li><li><a href="global.html#sidebar_is_open">sidebar_is_open</a></li><li><a href="global.html#stackEffect">stackEffect</a></li><li><a href="global.html#successbox_is_open">successbox_is_open</a></li><li><a href="global.html#theCanvas">theCanvas</a></li><li><a href="global.html#uploadImg">uploadImg</a></li><li><a href="global.html#VERSION">VERSION</a></li><li><a href="global.html#viewport">viewport</a></li><li><a href="global.html#viewportLoadTime">viewportLoadTime</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.2</a> on Wed Jun 24 2015 13:26:58 GMT+0300 (EEST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
