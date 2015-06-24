@@ -163,19 +163,16 @@ var ThreeViewport = function (domElement) {
   ThreeViewport.prototype.renderScene = function (message) {
 
     camera.position.z = IMGZOOM;
-    var startTime = new Date().getMilliseconds();
-
+    
     //render the scene for preview (a few msec of overhead)
     renderer.render(scene, camera);
-
-    console.log(message + " took: "
-                + (new Date().getMilliseconds() - startTime)
-                + " milleseconds"
-               );
 
   };
   
   ThreeViewport.prototype.updateShader = function (vS, fS, unifs, uType) {
+    
+    var startTime = new Date().getMilliseconds();
+    
     this.vShader = vS;
     this.fShader = fS;
     var newImg = new Image();
@@ -210,10 +207,14 @@ var ThreeViewport = function (domElement) {
     
     ThreeViewport.prototype.renderScene("Scene refresh");
     
+    console.log("Shader took: "
+                + (new Date().getMilliseconds() - startTime)
+                + "ms to update"
+               );
+    
   };
   
   ThreeViewport.prototype.swapOriginalImage = function (orgimg) {
-    //Issue with string immutability, hence the argument.
     //swap image in canvas with original image
     sessionStorage.setItem("orig", sessionStorage.getItem("editImg"));
     sessionStorage.setItem("editImg", orgimg.src);
@@ -222,7 +223,6 @@ var ThreeViewport = function (domElement) {
   };
   
   ThreeViewport.prototype.restoreProgress = function (orgimg) {
-    //Issue with string immutability, hence the argument.
     //swap original image in canvas with stored progress image
     sessionStorage.setItem("editImg", sessionStorage.getItem("orig"));
     sessionStorage.setItem("orig", orgimg.src);

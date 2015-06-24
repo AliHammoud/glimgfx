@@ -64,10 +64,10 @@
   color: none !important;
   border: 2px solid white !important; }
 
-.ui-widget :hover {
+.ui-widget:hover {
   background-color: white !important; }
 
-.ui-widget :active {
+.ui-widget:active {
   background-color: white !important; }
 
 #convolutionFilter {
@@ -93,10 +93,10 @@
   right: 10px;
   top: 10px; }
 
-#menu :hover {
+#menu:hover {
   background: none !important; }
 
-.open :hover {
+.open:hover {
   animation-name: rotateOpen;
   animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
@@ -110,7 +110,25 @@
     transform: rotate(200deg); }
   100% {
     transform: rotate(180deg); } }
-.closed :hover {
+.closed {
+  animation-name: pulsateIdle;
+  animation-iteration-count: infinite;
+  animation-duration: 1.3s; }
+
+@keyframes pulsateIdle {
+  0% {
+    transform: scale(1, 1); }
+  10% {
+    transform: scale(0.8, 0.8); }
+  25% {
+    transform: scale(1.1, 1.1); }
+  45% {
+    transform: scale(1.15, 1.15); }
+  80% {
+    transform: scale(1, 1); }
+  100% {
+    transform: scale(1, 1); } }
+.closed:hover {
   animation-name: rotateClosed;
   animation-iteration-count: infinite;
   -webkit-animation-fill-mode: forwards;
@@ -137,17 +155,15 @@
 #menuContainer {
   margin-top: 45px; }
 
-#menuContainer .btn, #title, a, p {
+#menuContainer .btn,
+#title,
+a,
+p {
   display: flex;
   margin: 10px; }
 
-#download {
-  margin-top: 20px !important;
-  background: none !important; }
-
-#menuContainer a:hover {
-  color: yellow;
-  cursor: pointer; }
+#link_download {
+  margin-top: 20px !important; }
 
 #menuContainer p {
   font-family: Arial;

@@ -1,16 +1,12 @@
 $menuBgColor: #000000;
 $fontColor: #ffffff;
-
 $fontSize: 10pt;
 $triangleSize: 5px;
-
 $menuWidth: 200px;
 $itemMargin: 10px;
 $menuHeight: 100%;
 $menuOpacity: 0.875;
-
 $sliderBorder: 2px;
-
 .btn {
   -webkit-border-radius: 60;
   -moz-border-radius: 60;
@@ -24,7 +20,6 @@ $sliderBorder: 2px;
   text-decoration: none;
   cursor: pointer;
   position: relative;
-  
 }
 
 .btn:hover {
@@ -46,7 +41,6 @@ $sliderBorder: 2px;
   background-repeat: no-repeat;
   background-image: url(collapsed.png);
   background-size: contain;
-  
 }
 
 .expander.expanded {
@@ -55,7 +49,6 @@ $sliderBorder: 2px;
   background-repeat: no-repeat;
   background-image: url(expanded.png);
   background-size: contain;
-  
 }
 
 .content {
@@ -64,53 +57,42 @@ $sliderBorder: 2px;
 }
 
 .ui-slider-horizontal {
-  
   width: 140px;
   border-radius: 10px;
   border: none !important;
   height: 2px !important;
   background-image: none !important;
   background-color: gray !important;
-  
 }
 
-.ui-widget * { 
+.ui-widget * {
   background-image: none !important;
   border: none !important;
   outline: none;
-
 }
 
 .ui-slider-horizontal .ui-slider-handle {
-  
   border-radius: 10px;
-  
   margin-top: -$sliderBorder !important;
-  
   width: 30px !important;
   height: 10px !important;
   cursor: pointer !important;
-  
   background-color: black !important;
   color: none !important;
-  
   border: $sliderBorder solid white !important;
 }
 
-.ui-widget :hover {
-
+.ui-widget:hover {
   background-color: white !important;
 }
 
-.ui-widget :active {
-
+.ui-widget:active {
   background-color: white !important;
 }
 
 #convolutionFilter {
   margin-top: $itemMargin;
   margin-left: $itemMargin*2;
-
 }
 
 #convolutionFilter input {
@@ -123,8 +105,7 @@ $sliderBorder: 2px;
   height: $menuHeight;
   position: absolute;
   opacity: $menuOpacity;
-  overflow-y:auto;
-  
+  overflow-y: auto;
 }
 
 #menu {
@@ -134,44 +115,89 @@ $sliderBorder: 2px;
   height: 15px;
   right: $itemMargin;
   top: $itemMargin;
-
 }
 
-#menu :hover {
-  background: none !important; }
+#menu:hover {
+  background: none !important;
+}
 
-.open :hover {
+.open:hover {
   animation-name: rotateOpen;
   animation-iteration-count: 1;
   -webkit-animation-fill-mode: forwards;
   -moz-animation-fill-mode: forwards;
-  animation-duration: 0.5s; }
+  animation-duration: 0.5s;
+}
 
 @keyframes rotateOpen {
   0% {
-    transform: rotate(0deg); }
+    transform: rotate(0deg);
+  }
   50% {
-    transform: rotate(200deg); }
+    transform: rotate(200deg);
+  }
   100% {
-    transform: rotate(180deg); } }
-.closed :hover {
+    transform: rotate(180deg);
+  }
+}
+
+.closed {
+  animation-name: pulsateIdle;
+  animation-iteration-count: infinite;
+  animation-duration: 1.3s;
+}
+
+@keyframes pulsateIdle {
+  0% {
+    transform: scale(1, 1);
+  }
+
+  10% {
+    transform: scale(0.8, 0.8);
+  }
+
+  25% {
+    transform: scale(1.10, 1.10);
+  }
+
+  45% {
+    transform: scale(1.15, 1.15);
+  }
+
+  80% {
+    transform: scale(1, 1);
+  }
+  
+  100%{
+    transform: scale(1, 1);
+  }
+
+}
+
+.closed:hover {
   animation-name: rotateClosed;
   animation-iteration-count: infinite;
   -webkit-animation-fill-mode: forwards;
   -moz-animation-fill-mode: forwards;
-  animation-duration: 1.5s; }
+  animation-duration: 1.5s;
+}
 
 @keyframes rotateClosed {
   0% {
-    transform: translate(0px, 0px); }
+    transform: translate(0px, 0px);
+  }
   25% {
-    transform: translate(-2px, 0px); }
+    transform: translate(-2px, 0px);
+  }
   30% {
-    transform: translate(7px, 0px); }
+    transform: translate(7px, 0px);
+  }
   65% {
-    transform: translate(5px, 0px); }
+    transform: translate(5px, 0px);
+  }
   100% {
-    transform: translate(0px, 0px); } 
+    transform: translate(0px, 0px);
+  }
 }
 
 #title {
@@ -183,22 +209,18 @@ $sliderBorder: 2px;
 
 #menuContainer {
   margin-top: 45px;
-
 }
 
-#menuContainer .btn, #title, a, p {
+#menuContainer .btn,
+#title,
+a,
+p {
   display: flex;
   margin: $itemMargin;
 }
 
-#download {
+#link_download {
   margin-top: $itemMargin*2 !important;
-  background: none !important;
-}
-
-#menuContainer a:hover {
-  color: yellow;
-  cursor: pointer;
 }
 
 #menuContainer p {

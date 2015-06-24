@@ -1,11 +1,10 @@
-$imageWidth:  100%;
-$menuHeight:  100%;
+$imageWidth: 100%;
+$menuHeight: 100%;
 $dropRegionW: 250px;
 $dropRegionH: 250px;
 $bgColor: #ddd;
 $errorBorderRadius: 20px;
 $errorBorderWidth: 4px;
-
 .over {
   animation-name: pulsate;
   animation-duration: 1s;
@@ -13,12 +12,20 @@ $errorBorderWidth: 4px;
 }
 
 @keyframes pulsate {
-  0%    {transform: scale(1,1);}
-  50%   {transform: scale(1.15,1.15);}
-  75%   {transform: scale(0.9,0.9);}
-  100%  {transform: scale(1,1);}
-
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(1.15, 1.15);
+  }
+  75% {
+    transform: scale(0.9, 0.9);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
 }
+
 #version {
   font-family: "americantypewriter", monospace;
   font-size: 10px;
@@ -26,34 +33,29 @@ $errorBorderWidth: 4px;
   right: 20px;
   bottom: 20px;
   text-align: right;
-  
   z-index: 4;
-  
-}
-#imageSection{
-  position:absolute;
-  width: $imageWidth;
-  height: $menuHeight;
-  
 }
 
-#imageSection canvas{
+#imageSection {
+  position: absolute;
+  width: $imageWidth;
+  height: $menuHeight;
+}
+
+#imageSection canvas {
   -ms-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  
   z-index: 0;
-  
 }
 
 #imageSection #originalNote {
   position: absolute;
   right: 25px;
   top: 25px;
-  
   -webkit-border-radius: 60;
   -moz-border-radius: 60;
   border-radius: 60px;
@@ -64,9 +66,7 @@ $errorBorderWidth: 4px;
   padding: 5pt 10pt 5pt 10pt;
   //border: solid $fontColor 2px;
   text-decoration: none;
-  
   z-index: 3;
-  
 }
 
 #originalNote span {
@@ -74,77 +74,56 @@ $errorBorderWidth: 4px;
 }
 
 #imageSection #errorBox {
-  
   position: absolute;
-  
   margin-top: -$errorBorderWidth - 40px;
   margin-left: 15%;
   width: 70%;
-  
   -webkit-border-bottom-left-radius: $errorBorderRadius;
   -webkit-border-bottom-right-radius: $errorBorderRadius;
-  
   -moz-border-bottom-left-radius: $errorBorderRadius;
   -moz-border-bottom-right-radius: $errorBorderRadius;
-  
   border-bottom-left-radius: $errorBorderRadius;
   border-bottom-right-radius: $errorBorderRadius;
-  
   font-family: Arial;
   color: #d90000;
   font-size: $fontSize;
-  
   background: #FF8080;
   padding: 5pt 10pt 5pt 10pt;
   border: solid #d90000 $errorBorderWidth;
-  
   text-decoration: none;
   text-align: center;
-  
   box-sizing: border-box;
-  
   z-index: 2;
-  
 }
 
 #imageSection #successBox {
   position: absolute;
-
   margin-top: -$errorBorderWidth - 40px;
   margin-left: 15%;
   width: 70%;
-
   -webkit-border-bottom-left-radius: $errorBorderRadius;
   -webkit-border-bottom-right-radius: $errorBorderRadius;
-
   -moz-border-bottom-left-radius: $errorBorderRadius;
   -moz-border-bottom-right-radius: $errorBorderRadius;
-
   border-bottom-left-radius: $errorBorderRadius;
   border-bottom-right-radius: $errorBorderRadius;
-
   font-family: Arial;
   color: #00d900;
   font-size: $fontSize;
-
   background: #80FF80;
   padding: 5pt 10pt 5pt 10pt;
   border: solid #00d900 $errorBorderWidth;
-
   text-decoration: none;
   text-align: center;
-
   box-sizing: border-box;
-  
   z-index: 1;
 }
 
-#imageSection #img_container{
-  position:relative;
+#imageSection #img_container {
+  position: relative;
   width: 0px;
   left: 50%;
   top: 50%;
-  
 }
 
 #dragDropRegion {
@@ -154,13 +133,11 @@ $errorBorderWidth: 4px;
   right: ($dropRegionW / 2) * -1;
   top: ($dropRegionH / 2) * -1;
   background: $bgColor;
-  
 }
 
 #dragDropRegion img {
   max-height: 100%;
   max-width: 100%;
-  
 }
 
 #dragDropRegion #dragDropOptions {
@@ -168,10 +145,8 @@ $errorBorderWidth: 4px;
   font-family: monospace;
   font-size: 10pt;
   padding: 10px;
-  
 }
 
 #dragDropRegion #dragDropOptions input {
   margin-top: 10px;
-  
 }
