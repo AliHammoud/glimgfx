@@ -463,7 +463,8 @@
 
     }
     
-    //TODO convert isEdge to return boolean, and do calculation.
+    //TODO convert isEdge to return boolean, and do calculation to 
+    //implement edge blurring.
     
     void main(){
     
@@ -528,8 +529,25 @@
 
 <body>
   <div id="container">
+    <div id="overlay">
+      <div>
+        <p id="imgDetails"><b>About glimgfx:</b></p>
+        <p id="text">
+          glimgfx is an open-source image processing application
+          that utilises WebGL to process images on your GPU right
+          in the browser.<br><br>
+          
+          Author: Ali Hammoud<br>
+          Repository: github.com/AliHammoud/glimgfx
+          
+        </p>
+      </div>
+    </div>
     <div id="imageSection">
-      <div id="version">version 0.1<br><span>copyright</span></div>
+      <div id="about" class="btn">?</div>
+      <div id="version">version 0.1
+        <br><span>copyright</span>
+      </div>
       <div id="errorBox">Error!</div>
       <div id="successBox">Success!</div>
       <div id="img_container">
@@ -543,90 +561,90 @@
         </div>
       </div>
     </div>
-    
+
     <div id="menuSection">
-      
+
       <div class="btn open" id="menu">
         <i id="menuIcon" class="material-icons md-48">arrow_forward</i>
       </div>
-      
+
       <div id="menuContainer">
-        
+
         <div id="title">glimgfx</div>
-        
+
         <div class="btn" id="btn_e0">Undo Last Effect
           <i id="btnIcon" class="material-icons md-48">undo</i>
         </div>
-        
+
         <div class="btn" id="btn_stack">Stack Effect
           <i id="btnIcon" class="material-icons md-48">playlist_add</i>
         </div>
-        
+
         <div class="btn" id="btn_org">Show Original
           <i id="btnIcon" class="material-icons md-48">check_box_outline_blank</i>
         </div>
-        
+
         <div class="btn" id="btn_reset">Change Image
           <i id="btnIcon" class="material-icons md-48">wallpaper</i>
         </div>
-        
+
         <div class="expander" id="rollout1" href="#">Color Manipulation</div>
         <div class="content1">
-          
+
           <div class="btn" id="btn_e9">Make Binary
             <i id="btnIcon" class="material-icons md-48">filter_b_and_w</i>
           </div>
-          
+
           <div class="btn" id="btn_e8">Make Grayscale
             <i id="btnIcon" class="material-icons md-48">monochrome_photos</i>
           </div>
-          
+
           <div class="btn" id="btn_e2">Invert Colours
             <i id="btnIcon" class="material-icons md-48">invert_colors</i>
           </div>
-          
+
           <div class="btn" id="btn_e1">Green is Blue
             <i id="btnIcon" class="material-icons md-48">shuffle</i>
           </div>
-          
+
           <div class="btn" id="btn_e3">Red is Blue
             <i id="btnIcon" class="material-icons md-48">shuffle</i>
           </div>
-          
+
           <div class="btn" id="btn_e12">Invert Red
             <i id="btnIcon" class="material-icons md-48">shuffle</i>
           </div>
-          
+
           <div class="btn" id="btn_e13">Invert Green
             <i id="btnIcon" class="material-icons md-48">shuffle</i>
           </div>
-          
+
           <div class="btn" id="btn_e4">Invert Blue
             <i id="btnIcon" class="material-icons md-48">shuffle</i>
           </div>
-          
+
         </div>
-        
+
         <div class="expander" id="rollout2" href="#">Basic Kernel Effects</div>
         <div class="content2">
           <div class="btn" id="btn_e5">Fast Blur
             <i id="btnIcon" class="material-icons md-48">blur_on</i>
           </div>
-          
+
           <div class="btn" id="btn_e6">Fast Bloom
             <i id="btnIcon" class="material-icons md-48">adjust</i>
           </div>
-          
+
           <div class="btn" id="btn_e7">Detect Edges
             <i id="btnIcon" class="material-icons md-48">select_all</i>
           </div>
-          
+
         </div>
-        
+
         <div class="expander" id="rollout3" href="#">Custom Convolution</div>
         <div class="content3">
           <table id="convolutionFilter">
-            
+
             <tr id="row1">
               <td id="column1">
                 <input class="kernel" id="k0" type="text" value="0">
@@ -638,7 +656,7 @@
                 <input class="kernel" id="k2" type="text" value="0">
               </td>
             </tr>
-            
+
             <tr id="row2">
               <td id="column1">
                 <input class="kernel" id="k3" type="text" value="0">
@@ -650,7 +668,7 @@
                 <input class="kernel" id="k5" type="text" value="0">
               </td>
             </tr>
-            
+
             <tr id="row3">
               <td id="column1">
                 <input class="kernel" id="k6" type="text" value="0">
@@ -662,51 +680,51 @@
                 <input class="kernel" id="k8" type="text" value="0">
               </td>
             </tr>
-            
+
           </table>
-          
+
           <div class="btn" id="btn_e10">Apply Filter
             <i id="btnIcon" class="material-icons md-48">border_inner</i>
           </div>
-          
+
         </div>
-        
+
         <div class="expander" id="rollout4" href="#">Chroma Key Removal</div>
         <div class="content4">
-          
+
           <p>Threshold:</p>
           <input class="numeric" id="in_f0" type="text" value="0%">
           <div id="slider"></div>
-          
+
           <div class="btn" id="btn_e11">Remove Chroma
             <i id="btnIcon" class="material-icons md-48">tune</i>
           </div>
-          
+
         </div>
-        
+
         <div class="expander" id="rollout5" href="#">Noise</div>
         <div class="content5">
-          
+
           <p>Noise intensity:</p>
           <input class="numeric" id="in_f1" type="text" value="0%">
           <div id="slider2"></div>
-          
+
           <div class="btn" id="btn_e14">Add Cosine Noise
             <i id="btnIcon" class="material-icons md-48">grain</i>
           </div>
 
         </div>
-        
+
         <a class="btn" id="link_download">
           Download Result
           <i id="btnIcon" class="material-icons md-48">file_download</i>
         </a>
-        
+
       </div>
-      
+
     </div>
   </div>
-  
+
 </body>
 
 </html>

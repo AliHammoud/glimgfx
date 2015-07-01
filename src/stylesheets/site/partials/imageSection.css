@@ -1,70 +1,137 @@
-/*
-Error: Undefined variable: "$fontColor".
-        on line 63 of ./site/partials/imageSection.scss
+.over {
+  animation-name: pulsate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite; }
 
-58:   top: 25px;
-59:   -webkit-border-radius: 60;
-60:   -moz-border-radius: 60;
-61:   border-radius: 60px;
-62:   font-family: Arial;
-63:   color: $fontColor;
-64:   font-size: $fontSize;
-65:   background: rgba(0.0, 0.0, 0.0, 0.5);
-66:   padding: 5pt 10pt 5pt 10pt;
-67:   //border: solid $fontColor 2px;
-68:   text-decoration: none;
+@keyframes pulsate {
+  0% {
+    transform: scale(1, 1); }
+  50% {
+    transform: scale(1.15, 1.15); }
+  75% {
+    transform: scale(0.9, 0.9); }
+  100% {
+    transform: scale(1, 1); } }
+#about {
+  display: inline;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 10px;
+  height: 15px;
+  padding-top: 10px;
+  padding-right: 10px; }
 
-Backtrace:
-./site/partials/imageSection.scss:63
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/script/tree/variable.rb:49:in `_perform'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/script/tree/node.rb:50:in `perform'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:394:in `visit_prop'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/stack.rb:79:in `block in with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/stack.rb:115:in `with_frame'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/stack.rb:79:in `with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:158:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:430:in `block (2 levels) in visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:430:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:430:in `block in visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:428:in `visit_rule'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/stack.rb:79:in `block in with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/stack.rb:115:in `with_frame'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/stack.rb:79:in `with_base'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:158:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/base.rb:52:in `map'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/base.rb:52:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/base.rb:36:in `block in visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/base.rb:36:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:157:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/visitors/perform.rb:8:in `visit'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/root_node.rb:36:in `css_tree'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/engine.rb:368:in `_render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/engine.rb:285:in `render_with_sourcemap'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/plugin/compiler.rb:209:in `each'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/plugin/compiler.rb:470:in `on_file_changed'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/lib/sass/plugin/compiler.rb:328:in `block in watch'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/vendor/listen/lib/listen/listener.rb:252:in `call'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/vendor/listen/lib/listen/listener.rb:252:in `on_change'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/vendor/listen/lib/listen/listener.rb:290:in `block in initialize_adapter'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/vendor/listen/lib/listen/adapters/polling.rb:48:in `call'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/vendor/listen/lib/listen/adapters/polling.rb:48:in `poll_changed_directories'
-/Library/Ruby/Gems/2.0.0/gems/sass-3.4.13/vendor/listen/lib/listen/adapter.rb:299:in `block in start_poller'
-*/
-body:before {
-  white-space: pre;
+#version {
+  font-family: "americantypewriter", monospace;
+  font-size: 10px;
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  text-align: right;
+  z-index: 4; }
+
+#imageSection {
+  position: absolute;
+  width: 100%;
+  height: 100%; }
+
+#imageSection canvas {
+  -ms-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  z-index: 0; }
+
+#imageSection #originalNote {
+  position: absolute;
+  right: 25px;
+  top: 25px;
+  -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  font-family: Arial;
+  color: #fff;
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 5pt 10pt 5pt 10pt;
+  text-decoration: none;
+  z-index: 3; }
+
+#originalNote span {
+  font-size: 6pt; }
+
+#imageSection #errorBox {
+  position: absolute;
+  margin-top: -44px;
+  margin-left: 15%;
+  width: 70%;
+  -webkit-border-bottom-left-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-bottom-left-radius: 20px;
+  -moz-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  font-family: Arial;
+  color: #d90000;
+  font-size: 10px;
+  background: #FF8080;
+  padding: 5pt 10pt 5pt 10pt;
+  border: solid #d90000 4px;
+  text-decoration: none;
+  text-align: center;
+  box-sizing: border-box;
+  z-index: 2; }
+
+#imageSection #successBox {
+  position: absolute;
+  margin-top: -44px;
+  margin-left: 15%;
+  width: 70%;
+  -webkit-border-bottom-left-radius: 20px;
+  -webkit-border-bottom-right-radius: 20px;
+  -moz-border-bottom-left-radius: 20px;
+  -moz-border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  font-family: Arial;
+  color: #00d900;
+  font-size: 10px;
+  background: #80FF80;
+  padding: 5pt 10pt 5pt 10pt;
+  border: solid #00d900 4px;
+  text-decoration: none;
+  text-align: center;
+  box-sizing: border-box;
+  z-index: 1; }
+
+#imageSection #img_container {
+  position: relative;
+  width: 0px;
+  left: 50%;
+  top: 50%; }
+
+#dragDropRegion {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  right: -125px;
+  top: -125px;
+  background: #ddd; }
+
+#dragDropRegion img {
+  max-height: 100%;
+  max-width: 100%; }
+
+#dragDropRegion #dragDropOptions {
+  text-align: center;
   font-family: monospace;
-  content: "Error: Undefined variable: \"$fontColor\".\A         on line 63 of ./site/partials/imageSection.scss\A \A 58:   top: 25px;\A 59:   -webkit-border-radius: 60;\A 60:   -moz-border-radius: 60;\A 61:   border-radius: 60px;\A 62:   font-family: Arial;\A 63:   color: $fontColor;\A 64:   font-size: $fontSize;\A 65:   background: rgba(0.0, 0.0, 0.0, 0.5);\A 66:   padding: 5pt 10pt 5pt 10pt;\A 67:   //border: solid $fontColor 2px;\A 68:   text-decoration: none;"; }
+  font-size: 10pt;
+  padding: 10px; }
+
+#dragDropRegion #dragDropOptions input {
+  margin-top: 10px; }
+
+/*# sourceMappingURL=imageSection.css.map */

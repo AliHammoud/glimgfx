@@ -34,3 +34,28 @@ a {
   margin-left: -12px;
   margin-top: -5px;
 }
+
+#overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: rgba(0,0,0,0.75);
+  display: none;
+}
+
+#overlay div {
+  padding: 20px;
+}
+
+#overlay p {
+  color: white;
+  font-family: monospace !important;
+  font-size: 15px;
+}
+
+#text {
+  font-family: monospace !important;
+  font-size: 12px !important;
+}

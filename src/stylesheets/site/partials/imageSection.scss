@@ -5,10 +5,14 @@ $dropRegionH: 250px;
 $bgColor: #ddd;
 $errorBorderRadius: 20px;
 $errorBorderWidth: 4px;
+$fontColor: #fff;
+$fontSize: 10px;
+
 .over {
   animation-name: pulsate;
   animation-duration: 1s;
   animation-iteration-count: infinite;
+  
 }
 
 @keyframes pulsate {
@@ -24,6 +28,18 @@ $errorBorderWidth: 4px;
   100% {
     transform: scale(1, 1);
   }
+}
+
+#about {
+  display: inline;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 10px;
+  height: 15px;
+  padding-top: 10px;
+  padding-right: 10px;
+  
 }
 
 #version {
@@ -64,7 +80,6 @@ $errorBorderWidth: 4px;
   font-size: $fontSize;
   background: rgba(0.0, 0.0, 0.0, 0.5);
   padding: 5pt 10pt 5pt 10pt;
-  //border: solid $fontColor 2px;
   text-decoration: none;
   z-index: 3;
 }

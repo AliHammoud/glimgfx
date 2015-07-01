@@ -97,6 +97,14 @@ var
     
   /** 
    * @global 
+   * @type Boolean
+   * @description <code>showAbout</code> specifies whether the
+          about box is visible or not.
+     */
+  aboutVisible = false,
+    
+  /** 
+   * @global 
    * @type int
    * @description <code>debugMode</code> specifies the detials of logs written by
         the application.<br><br>
@@ -515,6 +523,31 @@ function removeOriginalImgNote() {
 /* on document ready events */
 // Initialise and bind all of the event listeners here.
 $(document).ready(function () {
+  
+  /* About section */
+  $("#about").hover(function () {
+    this.className = "btn over";
+  });
+  
+  $("#about").mousedown(function () {
+    aboutVisible = !aboutVisible;
+    
+    if(aboutVisible){
+      $("#overlay").show();
+      closeSidebar();
+      
+    } else {
+      $("#overlay").hide();
+      openSidebar();
+      
+    }
+    
+  });
+  
+  $("#about").mouseout(function () {
+    this.className = "btn";
+  });
+  
   /* information */
   var today = new Date();
   $("#version").html(

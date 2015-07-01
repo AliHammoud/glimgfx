@@ -10,7 +10,8 @@
   border: solid #ffffff 2px;
   text-decoration: none;
   cursor: pointer;
-  position: relative; }
+  position: relative;
+  z-index: 5; }
 
 .btn:hover {
   background: #777777;
@@ -204,6 +205,16 @@ p {
     transform: scale(0.9, 0.9); }
   100% {
     transform: scale(1, 1); } }
+#about {
+  display: inline;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 10px;
+  height: 15px;
+  padding-top: 10px;
+  padding-right: 10px; }
+
 #version {
   font-family: "americantypewriter", monospace;
   font-size: 10px;
@@ -235,8 +246,8 @@ p {
   -moz-border-radius: 60;
   border-radius: 60px;
   font-family: Arial;
-  color: #ffffff;
-  font-size: 10pt;
+  color: #fff;
+  font-size: 10px;
   background: rgba(0, 0, 0, 0.5);
   padding: 5pt 10pt 5pt 10pt;
   text-decoration: none;
@@ -258,7 +269,7 @@ p {
   border-bottom-right-radius: 20px;
   font-family: Arial;
   color: #d90000;
-  font-size: 10pt;
+  font-size: 10px;
   background: #FF8080;
   padding: 5pt 10pt 5pt 10pt;
   border: solid #d90000 4px;
@@ -280,7 +291,7 @@ p {
   border-bottom-right-radius: 20px;
   font-family: Arial;
   color: #00d900;
-  font-size: 10pt;
+  font-size: 10px;
   background: #80FF80;
   padding: 5pt 10pt 5pt 10pt;
   border: solid #00d900 4px;
@@ -338,5 +349,26 @@ a {
 #menuIcon {
   margin-left: -12px;
   margin-top: -5px; }
+
+#overlay {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.75);
+  display: none; }
+
+#overlay div {
+  padding: 20px; }
+
+#overlay p {
+  color: white;
+  font-family: monospace !important;
+  font-size: 15px; }
+
+#text {
+  font-family: monospace !important;
+  font-size: 12px !important; }
 
 /*# sourceMappingURL=main.css.map */
