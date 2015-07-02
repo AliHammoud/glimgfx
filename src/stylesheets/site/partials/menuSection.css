@@ -158,8 +158,8 @@
 
 #menuContainer .btn,
 #title,
-a,
-p {
+#menuContainer a,
+#menuContainer p {
   display: flex;
   margin: 10px; }
 

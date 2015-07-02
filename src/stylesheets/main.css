@@ -158,8 +158,8 @@
 
 #menuContainer .btn,
 #title,
-a,
-p {
+#menuContainer a,
+#menuContainer p {
   display: flex;
   margin: 10px; }
 
@@ -340,6 +340,17 @@ i :hover {
 
 a {
   margin: 0; }
+
+#overlay a {
+  display: inline-flex;
+  color: white;
+  padding-left: 5px; }
+
+#repo_icon {
+  margin: none;
+  display: inline-flex;
+  float: left;
+  font-size: 15px; }
 
 #btnIcon {
   position: absolute;

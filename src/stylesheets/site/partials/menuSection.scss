@@ -214,8 +214,8 @@ $sliderBorder: 2px;
 
 #menuContainer .btn,
 #title,
-a,
-p {
+#menuContainer a,
+#menuContainer p {
   display: flex;
   margin: $itemMargin;
 }
