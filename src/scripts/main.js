@@ -486,7 +486,7 @@ function createDragDropRegion() {
   // HTML elements that make up the upload mechanism
   var 
     ddr   = '<div id="dragDropRegion"></div>',
-    dimg  = '<img src="img/dragdrop.png">',
+    dimg  = '<img src="src/img/dragdrop.png">',
     ddo   = '<div id="dragDropOptions">drag and drop an image here<br></div>',
     upld  = '<input id="browseImg" type="file" onchange="uploadImg()">';
 
